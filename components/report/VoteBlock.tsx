@@ -49,14 +49,14 @@ export function VoteBlock({ vote }: VoteBlockProps) {
             <div className="mb-1 flex items-center justify-between">
               <span className="text-sm font-medium text-gray-900">{result.option}</span>
               <span className="text-sm text-gray-600">
-                {result.count} vote{result.count !== 1 ? 's' : ''}
+                {totalVotes > 0 ? Math.round((result.count / totalVotes) * 100) : 0}% ({result.count} vote{result.count !== 1 ? 's' : ''})
               </span>
             </div>
-            <div className="relative h-2 w-full overflow-hidden rounded-full bg-gray-200">
+            <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-gray-200">
               <div
                 className="h-full bg-blue-600 transition-all"
                 style={{
-                  width: maxVotes > 0 ? `${(result.count / maxVotes) * 100}%` : '0%',
+                  width: totalVotes > 0 ? `${(result.count / totalVotes) * 100}%` : '0%',
                 }}
               />
             </div>

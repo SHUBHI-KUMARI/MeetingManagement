@@ -3,13 +3,13 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { FileText, Plus } from 'lucide-react'
+import { FileText, Plus, Library, ShieldCheck } from 'lucide-react'
 
 export function TopNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="sticky top-0 z-40 w-full border-b border-gray-200 bg-white">
+    <nav className="sticky top-0 z-40 w-full border-b border-gray-200/50 bg-white/75 backdrop-blur-md">
       <div className="flex h-16 items-center justify-between px-6">
         {/* Logo and brand */}
         <div className="flex items-center gap-3">
@@ -26,19 +26,21 @@ export function TopNav() {
         <div className="flex items-center gap-8">
           <Link
             href="/"
-            className={`text-sm font-medium transition-colors ${
+            className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${
               pathname === '/' ? 'text-blue-600' : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            Dashboard
+            <Library className="h-4 w-4" />
+            Reports Workspace
           </Link>
           <Link
             href="/compliance"
-            className={`text-sm font-medium transition-colors ${
+            className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${
               pathname === '/compliance' ? 'text-blue-600' : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            Compliance
+            <ShieldCheck className="h-4 w-4" />
+            Compliance Risk Audit
           </Link>
 
           {/* New Report button */}

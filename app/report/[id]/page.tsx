@@ -1,6 +1,8 @@
 'use client'
 
+import React, { useState, useEffect } from 'react'
 import { notFound } from 'next/navigation'
+import { motion } from 'framer-motion'
 import { TopNav } from '@/components/layout/TopNav'
 import { ReportSidebar } from '@/components/report/ReportSidebar'
 import { ComplianceSummary } from '@/components/report/ComplianceSummary'
@@ -10,15 +12,71 @@ import { DiscussionLog } from '@/components/report/sections/DiscussionLog'
 import { Decisions } from '@/components/report/sections/Decisions'
 import { VotingResults } from '@/components/report/sections/VotingResults'
 import { ComplianceFindings } from '@/components/report/sections/ComplianceFindings'
-import { getReportById } from '@/lib/mock-data'
+import { Report } from '@/lib/types'
+import { Loader2 } from 'lucide-react'
 
 interface ReportPageProps {
   params: Promise<{ id: string }>
 }
 
-export default async function ReportPage({ params }: ReportPageProps) {
-  const { id } = await params
-  const report = getReportById(id)
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+      damping: 15,
+    },
+  },
+}
+
+export default function ReportPage({ params }: ReportPageProps) {
+  const resolvedParams = React.use(params)
+  const id = resolvedParams.id
+
+  const [report, setReport] = useState<Report | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/reports')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const found = data.find((r) => r.id === id)
+          if (found) {
+            setReport(found)
+          }
+        }
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setIsLoading(false))
+  }, [id])
+
+  if (isLoading) {
+    return (
+      <>
+        <TopNav />
+        <main className="min-h-[calc(100vh-4rem)] bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin text-blue-600 mx-auto" />
+            <p className="mt-4 text-sm text-gray-600 font-medium font-sans">Loading report details...</p>
+          </div>
+        </main>
+      </>
+    )
+  }
 
   if (!report) {
     notFound()
@@ -33,23 +91,45 @@ export default async function ReportPage({ params }: ReportPageProps) {
 
         {/* Main content */}
         <main className="flex-1 overflow-auto">
-          <div className="mx-auto max-w-4xl px-8 py-12">
+          <motion.div
+            className="mx-auto max-w-4xl px-8 py-12"
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+          >
             {/* Sections */}
             <div className="space-y-16">
-              <CoverPage report={report} />
-              <ComplianceSummary report={report} />
-              <AttendanceTable report={report} />
-              <DiscussionLog report={report} />
-              <Decisions report={report} />
-              <VotingResults report={report} />
-              <ComplianceFindings report={report} />
+              <motion.div variants={itemVariants}>
+                <CoverPage report={report} />
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <ComplianceSummary report={report} />
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <AttendanceTable report={report} />
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <DiscussionLog report={report} />
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <Decisions report={report} />
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <VotingResults report={report} />
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <ComplianceFindings report={report} />
+              </motion.div>
             </div>
 
             {/* Footer spacing */}
-            <div className="mt-16 border-t border-gray-200 pt-8 text-center text-sm text-gray-600">
+            <motion.div
+              variants={itemVariants}
+              className="mt-16 border-t border-gray-200 pt-8 text-center text-sm text-gray-600"
+            >
               <p>End of report • Generated on {new Date(report.createdAt).toLocaleDateString()}</p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </main>
       </div>
     </>

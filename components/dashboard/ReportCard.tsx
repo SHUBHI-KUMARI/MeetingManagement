@@ -14,7 +14,7 @@ export function ReportCard({ report }: ReportCardProps) {
 
   return (
     <Link href={`/report/${report.id}`}>
-      <div className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:shadow-lg hover:-translate-y-1">
+      <div className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all duration-300 hover:shadow-[0_12px_24px_rgba(0,0,0,0.08)] hover:-translate-y-1 hover:border-blue-200">
         {/* Header section */}
         <div className="mb-4 flex items-start justify-between">
           <div className="flex-1">

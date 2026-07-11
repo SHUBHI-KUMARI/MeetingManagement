@@ -1,0 +1,203 @@
+[
+  {
+    "id": "rep-2026-07-17-001",
+    "title": "Product & Roadmap Sync — Q3 Planning",
+    "company": "styleIt fashion",
+    "region": "US",
+    "complianceType": "SOX",
+    "meetingDate": "2026-07-17",
+    "duration": 60,
+    "mode": "hybrid",
+    "location": "Meeting Room 2B, Northgate Office",
+    "reportLanguage": "English",
+    "status": "compliant",
+    "complianceScore": 80,
+    "attendees": [
+      {
+        "id": "att-1",
+        "name": "Priya Nair",
+        "role": "Head of Product",
+        "arrivalTime": "10:02 AM",
+        "departureTime": "10:41 AM",
+        "status": "present"
+      },
+      {
+        "id": "att-2",
+        "name": "Daniel Cho",
+        "role": "Engineering Lead",
+        "arrivalTime": "10:02 AM",
+        "departureTime": "10:41 AM",
+        "status": "present"
+      },
+      {
+        "id": "att-3",
+        "name": "Marta Ibanez",
+        "role": "Design Lead",
+        "arrivalTime": "10:02 AM",
+        "departureTime": "10:41 AM",
+        "status": "present"
+      },
+      {
+        "id": "att-4",
+        "name": "Owen Grant",
+        "role": "Customer Success Manager",
+        "arrivalTime": "10:02 AM",
+        "departureTime": "10:41 AM",
+        "status": "present"
+      },
+      {
+        "id": "att-5",
+        "name": "Farah Siddiqui",
+        "role": "Data Analyst",
+        "arrivalTime": "10:02 AM",
+        "departureTime": "10:41 AM",
+        "status": "present"
+      },
+      {
+        "id": "att-6",
+        "name": "Leon Brandt",
+        "role": "VP Sales",
+        "arrivalTime": "N/A",
+        "departureTime": "N/A",
+        "status": "absent"
+      }
+    ],
+    "discussionLog": [
+      {
+        "id": "disc-1",
+        "speaker": "Priya Nair",
+        "role": "Head of Product",
+        "timestamp": "10:05 AM",
+        "text": "Let's get started with the agenda: pricing tier decision, onboarding flow bug backlog, and Q3 roadmap slots.",
+        "sentiment": "neutral"
+      },
+      {
+        "id": "disc-2",
+        "speaker": "Daniel Cho",
+        "role": "Engineering Lead",
+        "timestamp": "10:10 AM",
+        "text": "The onboarding drop-off issue is actually at the workspace-naming step, not email verification.",
+        "sentiment": "neutral"
+      },
+      {
+        "id": "disc-3",
+        "speaker": "Farah Siddiqui",
+        "role": "Data Analyst",
+        "timestamp": "10:12 AM",
+        "text": "The funnel breakdown shows a 31% drop between step two and step three, which is workspace naming.",
+        "sentiment": "neutral"
+      },
+      {
+        "id": "disc-4",
+        "speaker": "Marta Ibanez",
+        "role": "Design Lead",
+        "timestamp": "10:15 AM",
+        "text": "I think it's partly a copy problem and partly that there's no default suggestion for workspace naming.",
+        "sentiment": "neutral"
+      },
+      {
+        "id": "disc-5",
+        "speaker": "Priya Nair",
+        "role": "Head of Product",
+        "timestamp": "10:20 AM",
+        "text": "Let's prefill the workspace-naming field based on the user's email domain.",
+        "sentiment": "positive"
+      },
+      {
+        "id": "disc-6",
+        "speaker": "Owen Grant",
+        "role": "Customer Success Manager",
+        "timestamp": "10:25 AM",
+        "text": "Customers are asking for usage-based pricing, especially mid-market accounts.",
+        "sentiment": "neutral"
+      },
+      {
+        "id": "disc-7",
+        "speaker": "Farah Siddiqui",
+        "role": "Data Analyst",
+        "timestamp": "10:30 AM",
+        "text": "The segment that wants usage-based pricing is about 15% of the base, but they're disproportionately our larger accounts.",
+        "sentiment": "neutral"
+      },
+      {
+        "id": "disc-8",
+        "speaker": "Marta Ibanez",
+        "role": "Design Lead",
+        "timestamp": "10:35 AM",
+        "text": "The pricing page design isn't ready for a third tier structure, that's a rebuild of the whole page.",
+        "sentiment": "neutral"
+      },
+      {
+        "id": "disc-9",
+        "speaker": "Priya Nair",
+        "role": "Head of Product",
+        "timestamp": "10:40 AM",
+        "text": "Let's put the usage-based pricing tier to a vote.",
+        "sentiment": "neutral"
+      }
+    ],
+    "decisions": [
+      {
+        "id": "dec-1",
+        "type": "decision",
+        "subject": "Prefill workspace-naming field",
+        "fact": "Prefill the workspace-naming field based on the user's email domain.",
+        "nextSteps": "Daniel to implement the fix by Thursday.",
+        "owner": "Daniel Cho",
+        "dueDate": "2026-07-17"
+      },
+      {
+        "id": "dec-2",
+        "type": "decision",
+        "subject": "Usage-based pricing tier",
+        "fact": "Commit to shipping the usage-based pricing tier in Q3.",
+        "nextSteps": "Design and engineering to work on the implementation.",
+        "owner": "Priya Nair"
+      }
+    ],
+    "votes": [
+      {
+        "id": "vote-1",
+        "question": "Commit to shipping the usage-based pricing tier in Q3.",
+        "date": "2026-07-17",
+        "results": [
+          {
+            "option": "In favor",
+            "count": 4
+          },
+          {
+            "option": "Against",
+            "count": 1
+          },
+          {
+            "option": "Abstain",
+            "count": 0
+          }
+        ],
+        "outcome": "passed"
+      }
+    ],
+    "complianceFindings": [
+      {
+        "id": "find-1",
+        "type": "risk",
+        "title": "Resourcing conflict",
+        "description": "Daniel raised a resourcing conflict between the Q3 usage-based pricing commitment and previously promised SSO delivery for two enterprise customers.",
+        "severity": "medium",
+        "impact": 50,
+        "confidence": 80
+      },
+      {
+        "id": "find-2",
+        "type": "missing-doc",
+        "title": "Analytics migration timing",
+        "description": "The timing of the analytics migration is still undecided, which may impact headcount planning.",
+        "severity": "low",
+        "impact": 20,
+        "confidence": 60
+      }
+    ],
+    "createdAt": "2026-07-17T14:30:00.000Z",
+    "summary": "The meeting discussed the onboarding flow bug backlog, pricing tier decision, and Q3 roadmap slots. The team decided to prefill the workspace-naming field and commit to shipping the usage-based pricing tier in Q3. However, there are resourcing conflicts and uncertainties around the analytics migration timing that need to be addressed."
+  }
+]
