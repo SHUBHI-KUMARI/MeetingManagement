@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { notFound } from 'next/navigation'
 import { motion } from 'framer-motion'
+import { Sidebar } from '@/components/layout/Sidebar'
 import { TopNav } from '@/components/layout/TopNav'
 import { ReportSidebar } from '@/components/report/ReportSidebar'
 import { ComplianceSummary } from '@/components/report/ComplianceSummary'
@@ -66,15 +67,18 @@ export default function ReportPage({ params }: ReportPageProps) {
 
   if (isLoading) {
     return (
-      <>
-        <TopNav />
-        <main className="min-h-[calc(100vh-4rem)] bg-gray-50 flex items-center justify-center">
-          <div className="text-center">
-            <Loader2 className="h-8 w-8 animate-spin text-blue-600 mx-auto" />
-            <p className="mt-4 text-sm text-gray-600 font-medium font-sans">Loading report details...</p>
-          </div>
-        </main>
-      </>
+      <div className="flex bg-[#090A0F] text-slate-100 min-h-screen">
+        <Sidebar />
+        <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
+          <TopNav />
+          <main className="min-h-[calc(100vh-4rem)] bg-[#090A0F] flex items-center justify-center">
+            <div className="text-center">
+              <Loader2 className="h-8 w-8 animate-spin text-[#818CF8] mx-auto" />
+              <p className="mt-4 text-xs text-slate-500 font-bold font-sans">Loading report details...</p>
+            </div>
+          </main>
+        </div>
+      </div>
     )
   }
 
@@ -83,55 +87,58 @@ export default function ReportPage({ params }: ReportPageProps) {
   }
 
   return (
-    <>
-      <TopNav />
-      <div className="flex min-h-[calc(100vh-4rem)] bg-gray-50">
-        {/* Sidebar TOC */}
-        <ReportSidebar />
+    <div className="flex bg-[#090A0F] text-slate-100 min-h-screen">
+      <Sidebar />
+      <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
+        <TopNav />
+        <div className="flex min-h-[calc(100vh-4rem)] bg-[#090A0F]">
+          {/* Sidebar TOC */}
+          <ReportSidebar />
 
-        {/* Main content */}
-        <main className="flex-1 overflow-auto">
-          <motion.div
-            className="mx-auto max-w-4xl px-8 py-12"
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-          >
-            {/* Sections */}
-            <div className="space-y-16">
-              <motion.div variants={itemVariants}>
-                <CoverPage report={report} />
-              </motion.div>
-              <motion.div variants={itemVariants}>
-                <ComplianceSummary report={report} />
-              </motion.div>
-              <motion.div variants={itemVariants}>
-                <AttendanceTable report={report} />
-              </motion.div>
-              <motion.div variants={itemVariants}>
-                <DiscussionLog report={report} />
-              </motion.div>
-              <motion.div variants={itemVariants}>
-                <Decisions report={report} />
-              </motion.div>
-              <motion.div variants={itemVariants}>
-                <VotingResults report={report} />
-              </motion.div>
-              <motion.div variants={itemVariants}>
-                <ComplianceFindings report={report} />
-              </motion.div>
-            </div>
-
-            {/* Footer spacing */}
+          {/* Main content */}
+          <main className="flex-1 overflow-auto">
             <motion.div
-              variants={itemVariants}
-              className="mt-16 border-t border-gray-200 pt-8 text-center text-sm text-gray-600"
+              className="mx-auto max-w-4xl px-8 py-12"
+              initial="hidden"
+              animate="visible"
+              variants={containerVariants}
             >
-              <p>End of report • Generated on {new Date(report.createdAt).toLocaleDateString()}</p>
+              {/* Sections */}
+              <div className="space-y-16">
+                <motion.div variants={itemVariants}>
+                  <CoverPage report={report} />
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <ComplianceSummary report={report} />
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <AttendanceTable report={report} />
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <DiscussionLog report={report} />
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <Decisions report={report} />
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <VotingResults report={report} />
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <ComplianceFindings report={report} />
+                </motion.div>
+              </div>
+
+              {/* Footer spacing */}
+              <motion.div
+                variants={itemVariants}
+                className="mt-16 border-t border-slate-800 pt-8 text-center text-xs text-slate-500"
+              >
+                <p>End of report • Generated on {new Date(report.createdAt).toLocaleDateString()}</p>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        </main>
+          </main>
+        </div>
       </div>
-    </>
+    </div>
   )
 }

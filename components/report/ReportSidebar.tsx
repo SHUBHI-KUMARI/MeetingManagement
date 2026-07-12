@@ -54,18 +54,18 @@ export function ReportSidebar() {
   }
 
   return (
-    <aside className="sticky top-16 h-[calc(100vh-4rem)] w-64 flex-shrink-0 overflow-y-auto border-r border-gray-200 bg-white p-6">
-      <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Contents</h3>
+    <aside className="sticky top-16 h-[calc(100vh-4rem)] w-64 flex-shrink-0 overflow-y-auto border-r border-slate-800/80 bg-[#0B0D13]/40 p-6">
+      <h3 className="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider">Contents</h3>
 
       <nav className="mt-4 space-y-1">
         {tocItems.map((item) => (
           <button
             key={item.id}
             onClick={() => handleClick(item.id)}
-            className={`w-full flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
+            className={`w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-semibold uppercase tracking-wider transition-all border ${
               activeSection === item.id
-                ? 'bg-blue-50 text-blue-700 font-medium'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                ? 'bg-indigo-500/10 text-[#818CF8] border-indigo-500/20'
+                : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-900/30'
             }`}
           >
             {item.icon}

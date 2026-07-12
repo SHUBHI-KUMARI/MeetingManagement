@@ -131,7 +131,7 @@ export function NewReportForm() {
     }
   }
 
-  // Loading state with terracotta orange spinner
+  // Loading state with premium spinner
   if (isLoadingAfterGenie) {
     return (
       <motion.div 
@@ -140,13 +140,13 @@ export function NewReportForm() {
         className="flex flex-col items-center justify-center py-16 px-4 text-center"
       >
         <div className="relative h-20 w-20 flex items-center justify-center">
-          <div className="absolute inset-0 rounded-full border-4 border-orange-50" />
-          <div className="absolute inset-0 rounded-full border-4 border-t-[#E07E63] animate-spin" />
+          <div className="absolute inset-0 rounded-full border-4 border-slate-800" />
+          <div className="absolute inset-0 rounded-full border-4 border-t-[#818CF8] animate-spin" />
         </div>
-        <h3 className="mt-8 font-serif text-2xl font-normal text-slate-800 animate-pulse">
+        <h3 className="mt-8 text-2xl font-extrabold text-white animate-pulse">
           Generating Compliance Report...
         </h3>
-        <p className="mt-3 text-xs text-slate-450 text-center max-w-sm font-sans leading-relaxed">
+        <p className="mt-3 text-xs text-slate-400 text-center max-w-sm font-sans leading-relaxed">
           Our AI engine is scanning your transcript, identifying governance risks, mapping compliance standards, and compiling the audit report. This takes about 5 seconds.
         </p>
       </motion.div>
@@ -156,23 +156,23 @@ export function NewReportForm() {
   return (
     <div className="space-y-8 font-sans">
       
-      {/* 1. STEPPER HEADERS (Terracotta orange accent) */}
-      <div className="flex items-center justify-center gap-2 md:gap-4 border-b border-slate-100 pb-6">
+      {/* 1. STEPPER HEADERS (Indigo/Violet accent) */}
+      <div className="flex items-center justify-center gap-2 md:gap-4 border-b border-slate-800/80 pb-6">
         <div 
           onClick={() => formData.transcript.trim() && !isGenieVanish && setActiveStep(0)}
           className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
             !isGenieVanish && formData.transcript.trim() ? 'cursor-pointer' : 'cursor-default'
           } ${
             activeStep === 0 
-              ? 'bg-[#E07E63]/10 text-[#E07E63]' 
-              : 'text-slate-400 hover:text-slate-600'
+              ? 'bg-indigo-500/10 border border-indigo-500/25 text-[#818CF8]' 
+              : 'text-slate-500 hover:text-slate-350'
           }`}
         >
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-current/10 text-[10px] font-bold">1</span>
           <span>Transcript Source</span>
         </div>
 
-        <ChevronRight className="h-4 w-4 text-slate-300" />
+        <ChevronRight className="h-4 w-4 text-slate-700" />
 
         <div 
           onClick={() => formData.transcript.trim() && !isGenieVanish && setActiveStep(1)}
@@ -180,8 +180,8 @@ export function NewReportForm() {
             !isGenieVanish && formData.transcript.trim() ? 'cursor-pointer' : 'cursor-default'
           } ${
             activeStep === 1 
-              ? 'bg-[#E07E63]/10 text-[#E07E63]' 
-              : 'text-slate-400 hover:text-slate-600'
+              ? 'bg-indigo-500/10 border border-indigo-500/25 text-[#818CF8]' 
+              : 'text-slate-500 hover:text-slate-350'
           }`}
         >
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-current/10 text-[10px] font-bold">2</span>
@@ -237,21 +237,21 @@ export function NewReportForm() {
 
                   <div
                     onClick={triggerFileSelect}
-                    className="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50 p-8 text-center hover:border-[#E07E63]/40 transition-colors cursor-pointer"
+                    className="rounded-2xl border-2 border-dashed border-slate-800 bg-slate-950/20 p-8 text-center hover:border-indigo-500/50 transition-colors cursor-pointer"
                   >
-                    <div className="mx-auto h-12 w-12 rounded-xl bg-orange-50 text-[#E07E63] border border-orange-100/50 flex items-center justify-center shadow-sm mb-3">
+                    <div className="mx-auto h-12 w-12 rounded-xl bg-indigo-500/10 text-[#818CF8] border border-indigo-500/20 flex items-center justify-center shadow-sm mb-3">
                       <Upload className="h-5 w-5" />
                     </div>
-                    <p className="text-xs font-bold text-slate-700">Drag & drop raw transcript files here</p>
-                    <p className="text-[10px] text-slate-400 mt-1">Supports TXT, DOCX files (Click to browse)</p>
+                    <p className="text-xs font-bold text-slate-350">Drag & drop raw transcript files here</p>
+                    <p className="text-[10px] text-slate-500 mt-1">Supports TXT, DOCX files (Click to browse)</p>
                   </div>
                 </div>
 
                 {formData.transcript && (
-                  <div className="flex items-center justify-between rounded-xl border border-emerald-100 bg-emerald-50/50 p-4 transition-all">
+                  <div className="flex items-center justify-between rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4 transition-all">
                     <div className="flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                      <span className="text-xs font-bold text-emerald-800 font-sans">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                      <span className="text-xs font-bold text-emerald-400 font-sans">
                         Transcript loaded successfully ({formData.transcript.split(/\s+/).length} words)
                       </span>
                     </div>
@@ -259,7 +259,7 @@ export function NewReportForm() {
                       type="button"
                       variant="outline"
                       size="sm"
-                      className="text-xs font-semibold border-emerald-200 text-emerald-800 bg-white hover:bg-emerald-50"
+                      className="text-xs font-semibold border-emerald-500/30 text-emerald-400 bg-slate-900/60 hover:bg-slate-800"
                       onClick={() => setShowPreview(!showPreview)}
                     >
                       {showPreview ? 'Hide Text' : 'View Preview'}
@@ -278,24 +278,24 @@ export function NewReportForm() {
                       value={formData.transcript}
                       onChange={handleInputChange}
                       rows={8}
-                      className="rounded-2xl border border-slate-200 bg-white p-4 font-sans text-xs text-slate-700 outline-none focus:border-[#E07E63]/40 focus:ring-1 focus:ring-[#E07E63]/30"
+                      className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4 font-sans text-xs text-slate-100 outline-none focus:border-indigo-500/50"
                     />
                   </div>
                 )}
 
                 {/* Action button row step 1 */}
-                <div className="flex justify-between items-center border-t border-slate-100 pt-6">
+                <div className="flex justify-between items-center border-t border-slate-800/80 pt-6">
                   <Button 
                     type="button" 
                     variant="ghost" 
-                    className="rounded-full text-xs font-semibold text-slate-500"
+                    className="rounded-full text-xs font-semibold text-slate-500 hover:text-slate-350"
                     onClick={() => router.push('/dashboard')}
                   >
                     Cancel
                   </Button>
                   <Button 
                     type="button" 
-                    className="rounded-full bg-[#E07E63] hover:bg-[#cf6d52] font-semibold text-white text-xs px-5 py-4 border-0 shadow-md shadow-orange-500/10 gap-1"
+                    className="rounded-xl bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] hover:opacity-95 text-white text-xs px-5 py-4 border-0 font-semibold shadow-md shadow-indigo-500/10 gap-1"
                     onClick={handleNextStep}
                   >
                     Continue
@@ -328,7 +328,7 @@ export function NewReportForm() {
                       value={formData.company}
                       onChange={handleInputChange}
                       required
-                      className="rounded-xl border border-slate-200 bg-white p-3 text-xs focus:border-[#E07E63]/40"
+                      className="rounded-xl border border-slate-850 bg-slate-950/60 p-3 text-xs text-slate-100 focus:border-indigo-500/50 focus:ring-0"
                     />
                   </div>
 
@@ -339,10 +339,10 @@ export function NewReportForm() {
                       Audit Region
                     </label>
                     <Select value={formData.region} onValueChange={(val) => handleSelectChange('region', val)}>
-                      <SelectTrigger className="rounded-xl border border-slate-200 text-xs">
+                      <SelectTrigger className="rounded-xl border border-slate-850 bg-slate-950/60 text-xs text-slate-200 focus:ring-0">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-slate-900 border border-slate-800 text-slate-250">
                         {regions.map((region) => (
                           <SelectItem key={region} value={region}>
                             {region}
@@ -359,10 +359,10 @@ export function NewReportForm() {
                       Regulation Framework
                     </label>
                     <Select value={formData.complianceType} onValueChange={(val) => handleSelectChange('complianceType', val)}>
-                      <SelectTrigger className="rounded-xl border border-slate-200 text-xs">
+                      <SelectTrigger className="rounded-xl border border-slate-850 bg-slate-950/60 text-xs text-slate-200 focus:ring-0">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-slate-900 border border-slate-800 text-slate-250">
                         {complianceTypes.map((type) => (
                           <SelectItem key={type} value={type}>
                             {type}
@@ -384,7 +384,7 @@ export function NewReportForm() {
                       value={formData.meetingDate}
                       onChange={handleInputChange}
                       required
-                      className="rounded-xl border border-slate-200 bg-white p-3 text-xs focus:border-[#E07E63]/40"
+                      className="rounded-xl border border-slate-850 bg-slate-950/60 p-3 text-xs text-slate-100 focus:border-indigo-500/50 focus:ring-0 [color-scheme:dark]"
                     />
                   </div>
 
@@ -401,7 +401,7 @@ export function NewReportForm() {
                       value={formData.duration}
                       onChange={handleInputChange}
                       min="1"
-                      className="rounded-xl border border-slate-200 bg-white p-3 text-xs focus:border-[#E07E63]/40"
+                      className="rounded-xl border border-slate-850 bg-slate-950/60 p-3 text-xs text-slate-100 focus:border-indigo-500/50 focus:ring-0"
                     />
                   </div>
 
@@ -412,10 +412,10 @@ export function NewReportForm() {
                       Report Language
                     </label>
                     <Select value={formData.reportLanguage} onValueChange={(val) => handleSelectChange('reportLanguage', val)}>
-                      <SelectTrigger className="rounded-xl border border-slate-200 text-xs">
+                      <SelectTrigger className="rounded-xl border border-slate-850 bg-slate-950/60 text-xs text-slate-200 focus:ring-0">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-slate-900 border border-slate-800 text-slate-250">
                         {languages.map((lang) => (
                           <SelectItem key={lang} value={lang}>
                             {lang}
@@ -428,11 +428,11 @@ export function NewReportForm() {
                 </div>
 
                 {/* Action buttons row step 2 */}
-                <div className="flex justify-between items-center border-t border-slate-100 pt-6">
+                <div className="flex justify-between items-center border-t border-slate-800/80 pt-6">
                   <Button 
                     type="button" 
                     variant="outline" 
-                    className="rounded-full text-xs font-semibold border-slate-200 text-slate-600 gap-1"
+                    className="rounded-xl border-slate-800 bg-slate-900/50 hover:bg-slate-800 text-slate-300 hover:text-white gap-1.5"
                     onClick={handlePrevStep}
                   >
                     <ArrowLeft className="h-3.5 w-3.5" />
@@ -440,7 +440,7 @@ export function NewReportForm() {
                   </Button>
                   <Button 
                     type="submit" 
-                    className="rounded-full bg-[#E07E63] hover:bg-[#cf6d52] font-semibold text-white text-xs px-6 py-4 border-0 shadow-lg shadow-orange-500/10 gap-1.5"
+                    className="rounded-xl bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] hover:opacity-95 text-white text-xs px-6 py-4 border-0 font-semibold shadow-lg shadow-indigo-500/20 gap-1.5"
                   >
                     Generate Report
                   </Button>
@@ -450,7 +450,6 @@ export function NewReportForm() {
           </AnimatePresence>
         </motion.div>
       </form>
-
     </div>
   )
 }
