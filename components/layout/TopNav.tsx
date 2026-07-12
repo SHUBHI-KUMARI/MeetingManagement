@@ -16,7 +16,7 @@ export function TopNav() {
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600">
             <FileText className="h-5 w-5 text-white" />
           </div>
-          <Link href="/" className="flex flex-col">
+          <Link href="/dashboard" className="flex flex-col">
             <span className="text-lg font-bold text-gray-900">Meeting Minute</span>
             <span className="text-xs text-gray-500">Compliance Reports</span>
           </Link>
@@ -25,9 +25,9 @@ export function TopNav() {
         {/* Navigation links */}
         <div className="flex items-center gap-8">
           <Link
-            href="/"
+            href="/dashboard"
             className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${
-              pathname === '/' ? 'text-blue-600' : 'text-gray-600 hover:text-gray-900'
+              pathname === '/dashboard' ? 'text-[#E07E63] font-semibold' : 'text-gray-600 hover:text-gray-900'
             }`}
           >
             <Library className="h-4 w-4" />
@@ -36,7 +36,7 @@ export function TopNav() {
           <Link
             href="/compliance"
             className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${
-              pathname === '/compliance' ? 'text-blue-600' : 'text-gray-600 hover:text-gray-900'
+              pathname === '/compliance' ? 'text-[#E07E63] font-semibold' : 'text-gray-600 hover:text-gray-900'
             }`}
           >
             <ShieldCheck className="h-4 w-4" />
@@ -45,7 +45,7 @@ export function TopNav() {
 
           {/* New Report button */}
           <Link href="/new">
-            <Button className="gap-2">
+            <Button className="gap-2 rounded-full bg-[#E07E63] text-white hover:bg-[#cf6d52] transition-all font-semibold border-0 shadow-lg shadow-orange-500/10 text-xs px-5">
               <Plus className="h-4 w-4" />
               New Report
             </Button>

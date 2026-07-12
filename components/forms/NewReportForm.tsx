@@ -2,11 +2,12 @@
 
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Upload, Loader2 } from 'lucide-react'
+import { Upload, Loader2, CheckCircle2, ChevronRight, ArrowLeft, Calendar, Building, Globe, Shield, Clock, Languages } from 'lucide-react'
 import { ComplianceType, ReportLanguage } from '@/lib/types'
 import { parseFileToText } from '@/lib/parseTranscript'
 
@@ -27,7 +28,13 @@ interface FormData {
 export function NewReportForm() {
   const router = useRouter()
   const fileInputRef = useRef<HTMLInputElement>(null)
+  
+  // Genie vanishing states
+  const [isGenieVanish, setIsGenieVanish] = useState(false)
+  const [isLoadingAfterGenie, setIsLoadingAfterGenie] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  
+  const [activeStep, setActiveStep] = useState(0) // 0 = Transcript, 1 = Metadata
   const [showPreview, setShowPreview] = useState(false)
   const [formData, setFormData] = useState<FormData>({
     company: '',
@@ -55,7 +62,7 @@ export function NewReportForm() {
     try {
       const text = await parseFileToText(file)
       setFormData((prev) => ({ ...prev, transcript: text }))
-      setShowPreview(false) // default to hidden preview on upload
+      setShowPreview(false)
     } catch (err: any) {
       alert(err.message)
     }
@@ -63,6 +70,18 @@ export function NewReportForm() {
 
   const triggerFileSelect = () => {
     fileInputRef.current?.click()
+  }
+
+  const handleNextStep = () => {
+    if (!formData.transcript.trim()) {
+      alert('Please upload or paste a transcript before continuing.')
+      return
+    }
+    setActiveStep(1)
+  }
+
+  const handlePrevStep = () => {
+    setActiveStep(0)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -73,6 +92,10 @@ export function NewReportForm() {
       return
     }
 
+    // Play genie vanishing animation
+    setIsGenieVanish(true)
+    await new Promise((resolve) => setTimeout(resolve, 800))
+    setIsLoadingAfterGenie(true)
     setIsLoading(true)
 
     try {
@@ -98,195 +121,336 @@ export function NewReportForm() {
       }
 
       const generatedReport = await response.json()
-      
-      // Redirect to the newly generated report
       router.push(`/report/${generatedReport.id}`)
     } catch (err: any) {
       console.error(err)
       alert(`Error generating report: ${err.message}`)
-    } finally {
+      setIsLoadingAfterGenie(false)
+      setIsGenieVanish(false)
       setIsLoading(false)
     }
   }
 
-  if (isLoading) {
+  // Loading state with terracotta orange spinner
+  if (isLoadingAfterGenie) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 px-4">
-        <div className="relative h-20 w-20">
-          <div className="absolute inset-0 rounded-full border-4 border-blue-50/50" />
-          <div className="absolute inset-0 rounded-full border-4 border-t-blue-600 animate-spin" />
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="flex flex-col items-center justify-center py-16 px-4 text-center"
+      >
+        <div className="relative h-20 w-20 flex items-center justify-center">
+          <div className="absolute inset-0 rounded-full border-4 border-orange-50" />
+          <div className="absolute inset-0 rounded-full border-4 border-t-[#E07E63] animate-spin" />
         </div>
-        <h3 className="mt-8 text-lg font-semibold text-black animate-pulse">Generating Compliance Report...</h3>
-        <p className="mt-2 text-sm text-black/70 text-center max-w-sm font-sans leading-relaxed">
-          Groq AI is scanning your transcript, identifying compliance risks, allocating votes, and compiling the procès-verbal. This takes about 5-10 seconds.
+        <h3 className="mt-8 font-serif text-2xl font-normal text-slate-800 animate-pulse">
+          Generating Compliance Report...
+        </h3>
+        <p className="mt-3 text-xs text-slate-450 text-center max-w-sm font-sans leading-relaxed">
+          Our AI engine is scanning your transcript, identifying governance risks, mapping compliance standards, and compiling the audit report. This takes about 5 seconds.
         </p>
-      </div>
+      </motion.div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-2xl space-y-8">
-      {/* Transcript Input */}
-      <div className="space-y-3">
-        <label className="block text-sm font-semibold text-gray-900">
-          Meeting Transcript <span className="text-red-600">*</span>
-        </label>
-        <p className="text-sm text-gray-600">Paste the full meeting transcript or upload a file</p>
-
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          accept=".txt,.docx"
-          className="hidden"
-        />
-
-        <div
-          onClick={triggerFileSelect}
-          className="rounded-lg border-2 border-dashed border-gray-300 p-6 text-center hover:border-gray-400 transition-colors cursor-pointer"
+    <div className="space-y-8 font-sans">
+      
+      {/* 1. STEPPER HEADERS (Terracotta orange accent) */}
+      <div className="flex items-center justify-center gap-2 md:gap-4 border-b border-slate-100 pb-6">
+        <div 
+          onClick={() => formData.transcript.trim() && !isGenieVanish && setActiveStep(0)}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+            !isGenieVanish && formData.transcript.trim() ? 'cursor-pointer' : 'cursor-default'
+          } ${
+            activeStep === 0 
+              ? 'bg-[#E07E63]/10 text-[#E07E63]' 
+              : 'text-slate-400 hover:text-slate-600'
+          }`}
         >
-          <Upload className="mx-auto h-8 w-8 text-gray-400" />
-          <p className="mt-2 text-sm font-medium text-gray-900">Drag and drop your file here</p>
-          <p className="text-xs text-gray-600">or click to select (.txt, .docx format)</p>
+          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-current/10 text-[10px] font-bold">1</span>
+          <span>Transcript Source</span>
         </div>
 
-        {formData.transcript && (
-          <div className="flex items-center justify-between rounded-lg border border-green-200 bg-green-50 p-4">
-            <div className="flex items-center gap-2">
-              <span className="h-2.5 w-2.5 rounded-full bg-green-500" />
-              <span className="text-sm font-medium text-green-800">
-                Transcript loaded ({formData.transcript.split(/\s+/).length} words)
-              </span>
-            </div>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => setShowPreview(!showPreview)}
-            >
-              {showPreview ? 'Hide Preview' : 'Show Preview'}
-            </Button>
-          </div>
-        )}
+        <ChevronRight className="h-4 w-4 text-slate-300" />
 
-        {(!formData.transcript || showPreview) && (
-          <Textarea
-            name="transcript"
-            placeholder="Paste your meeting transcript here..."
-            value={formData.transcript}
-            onChange={handleInputChange}
-            rows={8}
-            className="rounded-lg border border-gray-300 p-3 font-mono text-sm"
-          />
-        )}
-      </div>
-
-      {/* Meeting Metadata */}
-      <div className="grid gap-6 md:grid-cols-2">
-        {/* Company Name */}
-        <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-900">
-            Company Name <span className="text-red-600">*</span>
-          </label>
-          <Input
-            type="text"
-            name="company"
-            placeholder="e.g., Acme Corp"
-            value={formData.company}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        {/* Region */}
-        <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-900">Region</label>
-          <Select value={formData.region} onValueChange={(val) => handleSelectChange('region', val)}>
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {regions.map((region) => (
-                <SelectItem key={region} value={region}>
-                  {region}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Compliance Type */}
-        <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-900">Compliance Type</label>
-          <Select value={formData.complianceType} onValueChange={(val) => handleSelectChange('complianceType', val)}>
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {complianceTypes.map((type) => (
-                <SelectItem key={type} value={type}>
-                  {type}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Meeting Date */}
-        <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-900">
-            Meeting Date <span className="text-red-600">*</span>
-          </label>
-          <Input
-            type="date"
-            name="meetingDate"
-            value={formData.meetingDate}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        {/* Duration */}
-        <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-900">Duration (minutes)</label>
-          <Input
-            type="number"
-            name="duration"
-            placeholder="60"
-            value={formData.duration}
-            onChange={handleInputChange}
-            min="1"
-          />
-        </div>
-
-        {/* Report Language */}
-        <div className="space-y-2">
-          <label className="block text-sm font-semibold text-gray-900">Report Language</label>
-          <Select value={formData.reportLanguage} onValueChange={(val) => handleSelectChange('reportLanguage', val)}>
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {languages.map((lang) => (
-                <SelectItem key={lang} value={lang}>
-                  {lang}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <div 
+          onClick={() => formData.transcript.trim() && !isGenieVanish && setActiveStep(1)}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+            !isGenieVanish && formData.transcript.trim() ? 'cursor-pointer' : 'cursor-default'
+          } ${
+            activeStep === 1 
+              ? 'bg-[#E07E63]/10 text-[#E07E63]' 
+              : 'text-slate-400 hover:text-slate-600'
+          }`}
+        >
+          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-current/10 text-[10px] font-bold">2</span>
+          <span>Metadata Settings</span>
         </div>
       </div>
 
-      {/* Submit Button */}
-      <div className="flex gap-3 border-t border-gray-200 pt-6">
-        <Button type="button" variant="outline" disabled={isLoading}>
-          Cancel
-        </Button>
-        <Button type="submit" className="flex-1 gap-2" disabled={isLoading}>
-          {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-          {isLoading ? 'Generating Report...' : 'Generate Report'}
-        </Button>
-      </div>
-    </form>
+      {/* 2. FORM STEP WORKFLOW (Wrapped with Genie Vanishing animation) */}
+      <form onSubmit={handleSubmit}>
+        <motion.div
+          animate={isGenieVanish ? {
+            scaleY: [1, 0.7, 0.1, 0.01],
+            scaleX: [1, 0.9, 0.3, 0.01],
+            y: [0, 80, 200, 320],
+            skewX: [0, -10, -25, -45],
+            filter: ["blur(0px)", "blur(1px)", "blur(3px)", "blur(8px)"],
+            opacity: [1, 0.9, 0.4, 0],
+          } : {
+            scaleY: 1,
+            scaleX: 1,
+            y: 0,
+            skewX: 0,
+            filter: "blur(0px)",
+            opacity: 1,
+          }}
+          transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
+          className="space-y-8"
+        >
+          <AnimatePresence mode="wait">
+            {activeStep === 0 ? (
+              <motion.div
+                key="step0"
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 12 }}
+                transition={{ duration: 0.25 }}
+                className="space-y-6 text-left"
+              >
+                {/* Step 1 Content: Upload transcript */}
+                <div className="space-y-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400">
+                    Select Transcript File <span className="text-red-500">*</span>
+                  </label>
+                  <p className="text-xs text-slate-500">Provide Zoom transcript notes, chat records, or legal audio transcripts.</p>
+
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    accept=".txt,.docx"
+                    className="hidden"
+                  />
+
+                  <div
+                    onClick={triggerFileSelect}
+                    className="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50 p-8 text-center hover:border-[#E07E63]/40 transition-colors cursor-pointer"
+                  >
+                    <div className="mx-auto h-12 w-12 rounded-xl bg-orange-50 text-[#E07E63] border border-orange-100/50 flex items-center justify-center shadow-sm mb-3">
+                      <Upload className="h-5 w-5" />
+                    </div>
+                    <p className="text-xs font-bold text-slate-700">Drag & drop raw transcript files here</p>
+                    <p className="text-[10px] text-slate-400 mt-1">Supports TXT, DOCX files (Click to browse)</p>
+                  </div>
+                </div>
+
+                {formData.transcript && (
+                  <div className="flex items-center justify-between rounded-xl border border-emerald-100 bg-emerald-50/50 p-4 transition-all">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                      <span className="text-xs font-bold text-emerald-800 font-sans">
+                        Transcript loaded successfully ({formData.transcript.split(/\s+/).length} words)
+                      </span>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="text-xs font-semibold border-emerald-200 text-emerald-800 bg-white hover:bg-emerald-50"
+                      onClick={() => setShowPreview(!showPreview)}
+                    >
+                      {showPreview ? 'Hide Text' : 'View Preview'}
+                    </Button>
+                  </div>
+                )}
+
+                {(!formData.transcript || showPreview) && (
+                  <div className="space-y-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-400">
+                      Or Paste Text Transcript
+                    </label>
+                    <Textarea
+                      name="transcript"
+                      placeholder="Paste raw conversation logs or council minutes text directly here..."
+                      value={formData.transcript}
+                      onChange={handleInputChange}
+                      rows={8}
+                      className="rounded-2xl border border-slate-200 bg-white p-4 font-sans text-xs text-slate-700 outline-none focus:border-[#E07E63]/40 focus:ring-1 focus:ring-[#E07E63]/30"
+                    />
+                  </div>
+                )}
+
+                {/* Action button row step 1 */}
+                <div className="flex justify-between items-center border-t border-slate-100 pt-6">
+                  <Button 
+                    type="button" 
+                    variant="ghost" 
+                    className="rounded-full text-xs font-semibold text-slate-500"
+                    onClick={() => router.push('/dashboard')}
+                  >
+                    Cancel
+                  </Button>
+                  <Button 
+                    type="button" 
+                    className="rounded-full bg-[#E07E63] hover:bg-[#cf6d52] font-semibold text-white text-xs px-5 py-4 border-0 shadow-md shadow-orange-500/10 gap-1"
+                    onClick={handleNextStep}
+                  >
+                    Continue
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="step1"
+                initial={{ opacity: 0, x: 12 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -12 }}
+                transition={{ duration: 0.25 }}
+                className="space-y-6 text-left"
+              >
+                {/* Step 2 Content: Metadata Fields */}
+                <div className="grid gap-5 sm:grid-cols-2">
+                  
+                  {/* Company Name */}
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                      <Building className="h-3.5 w-3.5 text-slate-400" />
+                      Company / Organization <span className="text-red-500">*</span>
+                    </label>
+                    <Input
+                      type="text"
+                      name="company"
+                      placeholder="e.g., Acme Corp"
+                      value={formData.company}
+                      onChange={handleInputChange}
+                      required
+                      className="rounded-xl border border-slate-200 bg-white p-3 text-xs focus:border-[#E07E63]/40"
+                    />
+                  </div>
+
+                  {/* Region */}
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                      <Globe className="h-3.5 w-3.5 text-slate-400" />
+                      Audit Region
+                    </label>
+                    <Select value={formData.region} onValueChange={(val) => handleSelectChange('region', val)}>
+                      <SelectTrigger className="rounded-xl border border-slate-200 text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {regions.map((region) => (
+                          <SelectItem key={region} value={region}>
+                            {region}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Compliance Type */}
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                      <Shield className="h-3.5 w-3.5 text-slate-400" />
+                      Regulation Framework
+                    </label>
+                    <Select value={formData.complianceType} onValueChange={(val) => handleSelectChange('complianceType', val)}>
+                      <SelectTrigger className="rounded-xl border border-slate-200 text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {complianceTypes.map((type) => (
+                          <SelectItem key={type} value={type}>
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Meeting Date */}
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                      <Calendar className="h-3.5 w-3.5 text-slate-400" />
+                      Meeting Date <span className="text-red-500">*</span>
+                    </label>
+                    <Input
+                      type="date"
+                      name="meetingDate"
+                      value={formData.meetingDate}
+                      onChange={handleInputChange}
+                      required
+                      className="rounded-xl border border-slate-200 bg-white p-3 text-xs focus:border-[#E07E63]/40"
+                    />
+                  </div>
+
+                  {/* Duration */}
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                      <Clock className="h-3.5 w-3.5 text-slate-400" />
+                      Duration (minutes)
+                    </label>
+                    <Input
+                      type="number"
+                      name="duration"
+                      placeholder="60"
+                      value={formData.duration}
+                      onChange={handleInputChange}
+                      min="1"
+                      className="rounded-xl border border-slate-200 bg-white p-3 text-xs focus:border-[#E07E63]/40"
+                    />
+                  </div>
+
+                  {/* Report Language */}
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                      <Languages className="h-3.5 w-3.5 text-slate-400" />
+                      Report Language
+                    </label>
+                    <Select value={formData.reportLanguage} onValueChange={(val) => handleSelectChange('reportLanguage', val)}>
+                      <SelectTrigger className="rounded-xl border border-slate-200 text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {languages.map((lang) => (
+                          <SelectItem key={lang} value={lang}>
+                            {lang}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                </div>
+
+                {/* Action buttons row step 2 */}
+                <div className="flex justify-between items-center border-t border-slate-100 pt-6">
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    className="rounded-full text-xs font-semibold border-slate-200 text-slate-600 gap-1"
+                    onClick={handlePrevStep}
+                  >
+                    <ArrowLeft className="h-3.5 w-3.5" />
+                    Back
+                  </Button>
+                  <Button 
+                    type="submit" 
+                    className="rounded-full bg-[#E07E63] hover:bg-[#cf6d52] font-semibold text-white text-xs px-6 py-4 border-0 shadow-lg shadow-orange-500/10 gap-1.5"
+                  >
+                    Generate Report
+                  </Button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </form>
+
+    </div>
   )
 }

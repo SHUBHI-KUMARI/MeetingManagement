@@ -9,66 +9,75 @@ interface AttendanceTableProps {
 }
 
 export function AttendanceTable({ report }: AttendanceTableProps) {
-  const getStatusIcon = (status: string) => {
+  const getStatusBadge = (status: string) => {
     switch (status) {
       case 'present':
-        return <CheckCircle2 className="h-4 w-4 text-green-600" />
+        return (
+          <span className="inline-flex items-center gap-1 rounded bg-emerald-50 border border-emerald-100/60 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-700">
+            <CheckCircle2 className="h-3 w-3 shrink-0" />
+            Present
+          </span>
+        )
       case 'late':
-        return <AlertCircle className="h-4 w-4 text-amber-600" />
+        return (
+          <span className="inline-flex items-center gap-1 rounded bg-amber-50 border border-amber-100/60 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-700">
+            <AlertCircle className="h-3 w-3 shrink-0" />
+            Late
+          </span>
+        )
       case 'absent':
-        return <XCircle className="h-4 w-4 text-red-600" />
+        return (
+          <span className="inline-flex items-center gap-1 rounded bg-rose-50 border border-rose-100/60 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-rose-700">
+            <XCircle className="h-3 w-3 shrink-0" />
+            Absent
+          </span>
+        )
       default:
         return null
     }
   }
 
   return (
-    <section id="attendance" className="space-y-4">
-      <h2 className="text-2xl font-bold text-gray-900">Attendance</h2>
+    <section id="attendance" className="space-y-4 text-left font-sans">
+      
+      <div className="flex items-center justify-between border-b border-slate-200/60 pb-3">
+        <h2 className="text-sm font-bold uppercase tracking-wider text-slate-400">Attendance Roll Call</h2>
+        <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[10px] font-bold text-slate-500">
+          {report.attendees.length} members
+        </span>
+      </div>
 
-      <div className="overflow-x-auto rounded-lg border border-gray-200">
-        <table className="w-full">
-          <thead className="border-b border-gray-200 bg-gray-50">
+      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.015)]">
+        <table className="w-full text-xs">
+          <thead className="border-b border-slate-200 bg-slate-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                Name
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                Role
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                Arrival
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                Departure
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                Status
-              </th>
+              <th className="px-6 py-3.5 text-left font-bold text-slate-400 uppercase tracking-wider">Name</th>
+              <th className="px-6 py-3.5 text-left font-bold text-slate-400 uppercase tracking-wider">Role</th>
+              <th className="px-6 py-3.5 text-left font-bold text-slate-400 uppercase tracking-wider">Arrival</th>
+              <th className="px-6 py-3.5 text-left font-bold text-slate-400 uppercase tracking-wider">Departure</th>
+              <th className="px-6 py-3.5 text-left font-bold text-slate-400 uppercase tracking-wider">Status</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-slate-100">
             {report.attendees.map((attendee) => (
-              <tr key={attendee.id} className="hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-4 text-sm font-medium text-gray-900">{attendee.name}</td>
-                <td className="px-6 py-4 text-sm">
-                  <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${getRoleColor(attendee.role)}`}>
+              <tr key={attendee.id} className="hover:bg-slate-50/50 transition-colors text-slate-700">
+                <td className="px-6 py-4 font-bold text-slate-800">{attendee.name}</td>
+                <td className="px-6 py-4">
+                  <span className="inline-flex rounded-md bg-slate-100 border border-slate-200/40 px-2 py-0.5 text-[10px] font-bold text-slate-600 uppercase">
                     {attendee.role}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-600">{attendee.arrivalTime}</td>
-                <td className="px-6 py-4 text-sm text-gray-600">{attendee.departureTime}</td>
+                <td className="px-6 py-4 text-slate-400 font-medium">{attendee.arrivalTime}</td>
+                <td className="px-6 py-4 text-slate-400 font-medium">{attendee.departureTime}</td>
                 <td className="px-6 py-4">
-                  <div className="flex items-center gap-2">
-                    {getStatusIcon(attendee.status)}
-                    <span className="text-sm capitalize text-gray-600">{attendee.status}</span>
-                  </div>
+                  {getStatusBadge(attendee.status)}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
     </section>
   )
 }
