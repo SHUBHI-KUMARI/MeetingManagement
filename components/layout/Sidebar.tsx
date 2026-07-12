@@ -11,9 +11,9 @@ import {
   Settings, 
   HelpCircle, 
   ChevronLeft, 
-  ChevronRight,
-  Database
+  ChevronRight
 } from 'lucide-react'
+import { theme } from '@/lib/theme'
 
 export function Sidebar() {
   const pathname = usePathname()
@@ -21,12 +21,12 @@ export function Sidebar() {
 
   const menuItems = [
     {
-      name: 'Reports Workspace',
+      name: 'Reports',
       href: '/dashboard',
       icon: Library
     },
     {
-      name: 'Compliance Risk Audit',
+      name: 'Compliance',
       href: '/compliance',
       icon: ShieldCheck
     }
@@ -34,12 +34,12 @@ export function Sidebar() {
 
   const supportItems = [
     {
-      name: 'Workspace Settings',
+      name: 'Settings',
       href: '#settings',
       icon: Settings
     },
     {
-      name: 'Help & Docs',
+      name: 'Docs',
       href: '#docs',
       icon: HelpCircle
     }
@@ -48,24 +48,21 @@ export function Sidebar() {
   return (
     <motion.aside 
       animate={{ width: isCollapsed ? '5rem' : '16rem' }}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className="hidden md:flex flex-col h-screen sticky top-0 border-r border-slate-800/80 bg-[#0B0D13] text-white shrink-0 relative overflow-hidden"
+      transition={{ duration: 0.2, ease: 'easeInOut' }}
+      className={`hidden md:flex flex-col h-screen sticky top-0 border-r ${theme.colors.border} bg-[#0F1117] text-white shrink-0 relative overflow-hidden`}
     >
-      {/* Subtle ambient light dot inside sidebar */}
-      <div className="absolute top-0 left-0 w-24 h-24 bg-indigo-500/10 rounded-full blur-xl pointer-events-none" />
-
       {/* Sidebar Header */}
-      <div className="flex h-16 items-center justify-between px-6 border-b border-slate-800/80">
+      <div className={`flex h-16 items-center justify-between px-6 border-b ${theme.colors.borderMuted}`}>
         <Link href="/dashboard" className="flex items-center gap-2.5 overflow-hidden">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-tr from-[#4F46E5] to-[#7C3AED] shadow-md shadow-indigo-500/20 text-white">
-            <FileText className="h-4.5 w-4.5" />
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-slate-900 border border-slate-800 text-white">
+            <FileText className="h-4.5 w-4.5 text-slate-300" />
           </div>
           {!isCollapsed && (
             <motion.span 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.1 }}
-              className="font-bold text-sm tracking-tight whitespace-nowrap"
+              transition={{ delay: 0.05 }}
+              className="font-bold text-xs uppercase tracking-wider text-slate-200"
             >
               Meeting<span className="text-[#818CF8]">Minute</span>
             </motion.span>
@@ -73,26 +70,11 @@ export function Sidebar() {
         </Link>
       </div>
 
-      {/* Workspace Switcher mockup */}
-      <div className="p-4 border-b border-slate-800/60">
-        <div className={`flex items-center gap-3 rounded-xl bg-slate-900/50 border border-slate-800 p-2.5 overflow-hidden ${isCollapsed ? 'justify-center' : ''}`}>
-          <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-indigo-500/10 border border-indigo-500/25 text-[#818CF8]">
-            <Database className="h-3.5 w-3.5" />
-          </div>
-          {!isCollapsed && (
-            <div className="text-left overflow-hidden">
-              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500">Active Tenant</span>
-              <span className="block text-xs font-bold text-slate-200 truncate">Shubhi Workspace</span>
-            </div>
-          )}
-        </div>
-      </div>
-
       {/* Navigation menu */}
       <div className="flex-1 py-6 px-4 space-y-7 overflow-y-auto">
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           {!isCollapsed && (
-            <span className="block text-[9px] font-extrabold uppercase tracking-wider text-slate-500 px-3 mb-2">Workspace Navigation</span>
+            <span className={theme.typography.caption + " px-3 mb-2 block"}>Navigation</span>
           )}
           {menuItems.map((item) => {
             const IconComponent = item.icon
@@ -101,29 +83,22 @@ export function Sidebar() {
               <Link 
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all relative group ${
+                className={`flex items-center gap-3 px-3 py-2.5 ${theme.radius.button} text-xs font-bold uppercase tracking-wider transition-all relative group ${
                   isActive 
-                    ? 'text-white bg-gradient-to-r from-indigo-500/15 to-purple-500/10 border border-indigo-500/20' 
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/30'
+                    ? 'text-white bg-slate-900 border border-slate-800/60' 
+                    : 'text-slate-500 hover:text-slate-350'
                 } ${isCollapsed ? 'justify-center' : ''}`}
               >
-                <IconComponent className={`h-4.5 w-4.5 shrink-0 ${isActive ? 'text-[#818CF8]' : 'text-slate-400 group-hover:text-slate-200'}`} />
+                <IconComponent className="h-4 w-4 shrink-0 text-slate-400" />
                 {!isCollapsed && <span>{item.name}</span>}
-                {isActive && (
-                  <motion.div 
-                    layoutId="sidebar-active-indicator" 
-                    className="absolute left-0 w-1 h-5 bg-[#818CF8] rounded-r-full"
-                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                  />
-                )}
               </Link>
             )
           })}
         </div>
 
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           {!isCollapsed && (
-            <span className="block text-[9px] font-extrabold uppercase tracking-wider text-slate-500 px-3 mb-2">Support & Admin</span>
+            <span className={theme.typography.caption + " px-3 mb-2 block"}>Support</span>
           )}
           {supportItems.map((item) => {
             const IconComponent = item.icon
@@ -131,11 +106,11 @@ export function Sidebar() {
               <a 
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-900/30 ${
+                className={`flex items-center gap-3 px-3 py-2.5 ${theme.radius.button} text-xs font-bold uppercase tracking-wider transition-all text-slate-500 hover:text-slate-350 ${
                   isCollapsed ? 'justify-center' : ''
                 }`}
               >
-                <IconComponent className="h-4.5 w-4.5 shrink-0 text-slate-400" />
+                <IconComponent className="h-4 w-4 shrink-0 text-slate-500" />
                 {!isCollapsed && <span>{item.name}</span>}
               </a>
             )
@@ -144,10 +119,10 @@ export function Sidebar() {
       </div>
 
       {/* Collapse control toggle button at bottom */}
-      <div className="p-4 border-t border-slate-800/80 flex items-center justify-center">
+      <div className={`p-4 border-t ${theme.colors.borderMuted} flex items-center justify-center`}>
         <button 
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-850 hover:border-slate-700 transition-colors shadow-sm"
+          className={`flex h-8 w-8 items-center justify-center ${theme.radius.button} bg-slate-950 border border-slate-900 text-slate-500 hover:text-white transition-colors`}
         >
           {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </button>

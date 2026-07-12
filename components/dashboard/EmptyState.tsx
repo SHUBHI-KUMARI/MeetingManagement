@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { FileText, Plus, CheckCircle2 } from 'lucide-react'
+import { FileText, Plus } from 'lucide-react'
+import { theme } from '@/lib/theme'
 
 export function EmptyState() {
   const highlights = [
@@ -12,42 +13,38 @@ export function EmptyState() {
   ]
 
   return (
-    <div className="flex min-h-[500px] flex-col items-center justify-center rounded-3xl border border-slate-800/80 bg-slate-900/40 p-8 sm:p-12 shadow-[0_8px_32px_rgba(0,0,0,0.2)] backdrop-blur-md relative overflow-hidden">
+    <div className={`flex min-h-[500px] flex-col items-center justify-center border ${theme.colors.border} bg-[#0F1117]/40 p-8 sm:p-12 shadow backdrop-blur-md relative overflow-hidden ${theme.radius.card}`}>
       
-      {/* Background glow behind empty state */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-500/10 rounded-full blur-[80px] pointer-events-none -z-10" />
-
       {/* Icon */}
-      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-500/10 border border-indigo-500/25 text-[#818CF8] shadow-lg shadow-indigo-500/5 mb-6">
-        <FileText className="h-8 w-8" />
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-900 border border-slate-800 text-slate-300 mb-6">
+        <FileText className="h-6 w-6" />
       </div>
 
       {/* Main headings */}
-      <h3 className="text-2xl font-bold text-white tracking-tight">Workspace is Empty</h3>
-      <p className="mt-3.5 text-center text-sm text-slate-400 max-w-lg font-sans leading-relaxed">
+      <h3 className="text-xl font-bold text-white tracking-tight">Workspace is Empty</h3>
+      <p className="mt-2 text-center text-xs text-slate-400 max-w-md font-sans leading-relaxed">
         Upload your raw meeting transcript to generate compliance-ready minutes, procès-verbal documents, and actionable compliance risk audits.
       </p>
 
       {/* Action Button */}
       <Link href="/new" className="mt-8">
-        <Button size="lg" className="gap-2 rounded-xl bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] text-white hover:opacity-95 shadow-lg shadow-indigo-500/20 hover:-translate-y-0.5 transition-all duration-300 border-0 font-semibold px-6 py-5">
-          <Plus className="h-4.5 w-4.5" />
+        <Button size="lg" className={`rounded-xl bg-indigo-650 hover:bg-indigo-700 text-white text-[10px] font-bold uppercase tracking-wider px-6 py-5 border-0 shadow-sm`}>
+          <Plus className="h-4 w-4 mr-1" />
           Create First Report
         </Button>
       </Link>
 
       {/* Divider */}
-      <div className="my-10 w-full max-w-md border-t border-slate-800/60" />
+      <div className="my-10 w-full max-w-md border-t border-slate-900" />
 
       {/* Platform Features Grid */}
       <div className="w-full max-w-2xl grid gap-5 sm:grid-cols-3">
         {highlights.map((item, idx) => (
-          <div key={idx} className="flex flex-col items-start p-4 rounded-2xl bg-slate-950/20 border border-slate-900 hover:border-slate-800 transition-colors text-left">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-[#818CF8]">
-              <CheckCircle2 className="h-4 w-4 shrink-0" />
-              <span>{item.title}</span>
-            </div>
-            <p className="mt-2 text-[10.5px] text-slate-400 leading-relaxed font-sans">
+          <div key={idx} className="flex flex-col items-start p-4 rounded-xl bg-slate-950/20 border border-slate-900 text-left space-y-2.5">
+            <span className="text-[9.5px] font-black text-slate-300 uppercase tracking-wider block">
+              {item.title}
+            </span>
+            <p className="text-[10px] text-slate-500 leading-relaxed font-sans font-medium">
               {item.desc}
             </p>
           </div>

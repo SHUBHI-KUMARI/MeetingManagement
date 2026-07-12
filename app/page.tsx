@@ -2,33 +2,16 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { 
   FileText, 
-  ArrowRight, 
   CheckCircle2, 
-  UploadCloud, 
-  Shield, 
-  Sparkles, 
-  Download,
-  AlertTriangle,
-  Send,
-  MessageSquare,
-  Lock,
-  Plus,
-  Volume2,
-  ChevronRight,
-  Fingerprint,
-  Activity,
-  Clock,
-  Globe,
-  TrendingUp,
-  ArrowUpRight
+  ArrowRight
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { theme } from '@/lib/theme'
 
 export default function LandingPage() {
-  const [activeStep, setActiveStep] = useState<number>(0)
   const [queryInput, setQueryInput] = useState<string>('GDPR Article 32')
   const [demoQueryResults, setDemoQueryResults] = useState<string[]>([
     'Article 32(1)(a): Encryption active.',
@@ -88,27 +71,27 @@ export default function LandingPage() {
     { title: 'Works-Council translation check', company: 'Legal Dept', score: 78, status: 'needs-review' }
   ]
 
-  return (
-    <div className="min-h-screen bg-[#070B14] text-slate-100 selection:bg-[#7C3AED]/30 selection:text-white antialiased relative overflow-x-hidden">
-      
-      {/* Animated gradient mesh background blobs */}
-      <div className="absolute top-[-5%] left-[-10%] w-[50%] aspect-square rounded-full bg-gradient-to-tr from-[#7C3AED]/12 to-transparent blur-[120px] pointer-events-none -z-10 animate-pulse duration-[10000ms]" />
-      <div className="absolute top-[20%] right-[-15%] w-[60%] aspect-square rounded-full bg-gradient-to-bl from-[#06B6D4]/12 to-transparent blur-[130px] pointer-events-none -z-10" />
-      <div className="absolute bottom-[10%] left-[-5%] w-[50%] aspect-square rounded-full bg-gradient-to-tr from-[#EC4899]/8 to-transparent blur-[110px] pointer-events-none -z-10" />
+  // Custom handcrafted badge style constants (White text, top-left & bottom-right borders)
+  const compliantBadgeClass = 'bg-emerald-500/15 text-white border border-t-emerald-500/35 border-l-emerald-500/35 border-b-emerald-500/5 border-r-emerald-500/5 rounded-full font-semibold uppercase tracking-wider text-[8.5px] px-3.5 flex items-center justify-center h-5'
+  const reviewBadgeClass = 'bg-amber-500/15 text-white border border-t-amber-500/35 border-l-amber-500/35 border-b-amber-500/5 border-r-amber-500/5 rounded-full font-semibold uppercase tracking-wider text-[8.5px] px-3.5 flex items-center justify-center h-5'
 
-      {/* 1. FLOATING TRANSPARENT NAVBAR CAPSULE */}
-      <header className="sticky top-0 z-50 mx-auto max-w-7xl px-4 sm:px-6 py-4 shrink-0">
-        <div className="flex h-16 items-center justify-between rounded-2xl border border-slate-800/80 bg-[#070B14]/65 px-6 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-md">
+  return (
+    <div className="min-h-screen bg-[#090611] text-slate-100 selection:bg-[#7C3AED]/30 selection:text-white antialiased relative overflow-x-hidden font-sans">
+      
+      {/* 1. FLOATING NAVBAR CAPSULE */}
+      <header className="sticky top-0 z-50 mx-auto max-w-7xl px-4 sm:px-6 py-6 shrink-0">
+        <div className={`flex h-16 items-center justify-between rounded-2xl border ${theme.colors.border} bg-[#0F1117]/65 px-6 shadow-md backdrop-blur-md`}>
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-[#7C3AED] to-[#06B6D4] text-white shadow-[0_4px_12px_rgba(124,58,237,0.3)]">
-              <FileText className="h-5 w-5" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 border border-white/5 text-white">
+              <FileText className="h-4.5 w-4.5 text-slate-350" />
             </div>
-            <span className="text-sm font-black tracking-tight text-white font-sans uppercase">
-              Meeting <span className="bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] bg-clip-text text-transparent">Minute</span>
-            </span>
+            <Link href="/" className="flex items-baseline gap-1">
+              <span className="text-xs font-black tracking-tight text-white uppercase">Meeting</span>
+              <span className="text-[10px] text-slate-500 font-extrabold tracking-wider uppercase">Minute</span>
+            </Link>
           </div>
 
-          <nav className="hidden md:flex items-center gap-8 text-xs font-semibold uppercase tracking-wider text-slate-400">
+          <nav className="hidden md:flex items-center gap-8 text-[9px] font-extrabold uppercase tracking-wider text-slate-500">
             <a href="#features" className="hover:text-white transition-colors">Features</a>
             <a href="#how-it-works" className="hover:text-white transition-colors">How it works</a>
             <a href="#metrics" className="hover:text-white transition-colors">Analytics</a>
@@ -116,11 +99,11 @@ export default function LandingPage() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link href="/dashboard" className="text-xs font-semibold uppercase tracking-wider text-slate-400 hover:text-white transition-colors mr-2">
+            <Link href="/dashboard" className="text-[9px] font-extrabold uppercase tracking-wider text-slate-500 hover:text-white transition-colors mr-2">
               Log In
             </Link>
             <Link href="/dashboard">
-              <Button size="sm" className="rounded-xl bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] px-5 py-4 text-xs font-bold uppercase tracking-wider text-white border-0 hover:opacity-95 shadow-md">
+              <Button size="sm" className="rounded-xl bg-indigo-650 hover:bg-indigo-700 text-white text-[10px] font-bold uppercase tracking-wider px-5 py-4 border-0 shadow-sm">
                 Sign Up
               </Button>
             </Link>
@@ -129,145 +112,117 @@ export default function LandingPage() {
       </header>
 
       {/* 2. FULL SCREEN HERO WITH LIVE DASHBOARD PREVIEW */}
-      <section className="relative pt-12 pb-20 md:pt-16 md:pb-24">
-        <div className="mx-auto max-w-7xl px-4 text-center">
+      <section className="relative pt-16 pb-24 md:pt-24 md:pb-32">
+        <div className="mx-auto max-w-7xl px-6 text-left">
           
-          <div className="space-y-4 max-w-3xl mx-auto mb-14 text-center">
-            <motion.h1 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-4xl sm:text-5xl md:text-6.5xl font-black tracking-tight text-white leading-[1.08] uppercase"
-            >
-              Build an Audit-Ready Compliance <br />
-              Report in Minutes with <span className="bg-gradient-to-r from-[#7C3AED] via-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent">AI</span>
-            </motion.h1>
-
-            <motion.p 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="mx-auto max-w-2xl text-slate-450 text-xs sm:text-sm leading-relaxed"
-            >
-              Meeting Minute AI analyzes your legal, corporate, and council transcripts. <br />
-              Map conversations to regulatory standards and auto-verify auditing points.
-            </motion.p>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="flex justify-center gap-3 pt-3"
-            >
+          {/* Asymmetric Hero layout: Left description / Right CTA */}
+          <div className="grid gap-12 lg:grid-cols-12 items-end mb-20">
+            <div className="lg:col-span-8 space-y-4">
+              <motion.h1 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="text-4xl sm:text-5xl md:text-6.5xl font-black tracking-tight text-white uppercase leading-[1.05]"
+              >
+                Build an Audit-Ready Compliance <br />
+                Report in Minutes with AI
+              </motion.h1>
+              <p className="max-w-2xl text-slate-500 text-xs sm:text-sm leading-relaxed">
+                Meeting Minute AI analyzes your legal, corporate, and council transcripts. Map conversations to regulatory standards and auto-verify auditing points.
+              </p>
+            </div>
+            
+            <div className="lg:col-span-4 flex justify-start lg:justify-end">
               <Link href="/dashboard">
-                <Button className="group rounded-xl bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] px-6 py-5 text-xs font-bold uppercase tracking-wider text-white border-0 hover:opacity-95 shadow-lg shadow-indigo-500/10 transition-all gap-1.5">
+                <Button className="group rounded-xl bg-indigo-650 hover:bg-indigo-700 text-white text-[10px] font-bold uppercase tracking-wider px-7 py-6 border-0 shadow-sm gap-1.5">
                   Build My Report
-                  <ArrowRight className="h-4.5 w-4.5 group-hover:translate-x-0.5 transition-transform" />
+                  <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-            </motion.div>
+            </div>
           </div>
 
           {/* SIMULATED LIVE PRODUCT DASHBOARD HERO GRID */}
           <motion.div 
-            initial={{ opacity: 0, y: 35, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="relative mx-auto rounded-3xl border border-slate-800/80 bg-[#111827]/40 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-md w-full max-w-6xl overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className={`relative mx-auto border ${theme.colors.border} bg-[#0F1117]/40 p-4 shadow-xl backdrop-blur-md w-full max-w-6xl overflow-hidden ${theme.radius.card}`}
           >
-            {/* Ambient glows inside hero console */}
-            <div className="absolute top-0 left-0 w-80 h-80 bg-gradient-to-br from-[#7C3AED]/12 to-transparent blur-[70px] pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-tl from-[#06B6D4]/8 to-transparent blur-[70px] pointer-events-none" />
-
-            <div className="grid gap-4 lg:grid-cols-12 items-stretch relative z-10 text-left">
+            <div className="grid gap-4 lg:grid-cols-12 items-stretch text-left">
               
               {/* PANEL 1: Left Stepper Pipeline Widget (3 cols) */}
-              <div className="lg:col-span-3 rounded-2xl border border-slate-850 bg-[#070B14]/75 p-5 flex flex-col justify-between">
+              <div className="lg:col-span-3 rounded-2xl border border-white/5 bg-[#090611]/75 p-5 flex flex-col justify-between">
                 <div>
-                  <span className="text-[9px] uppercase tracking-wider text-slate-500 font-extrabold block">Live Status Index</span>
-                  <h4 className="text-xs font-black text-white mt-1 border-b border-slate-850 pb-2.5 mb-3">AI Pipeline Stepper</h4>
+                  <span className={theme.typography.caption}>Live Status Index</span>
+                  <h4 className={theme.typography.cardHeading + " mt-1 border-b border-white/5 pb-2.5 mb-3"}>AI Pipeline Stepper</h4>
                   
                   <div className="space-y-4">
                     {pipelineSteps.map((step, idx) => (
                       <div key={idx} className="flex gap-3 relative">
                         {idx !== pipelineSteps.length - 1 && (
-                          <div className="absolute top-5 left-2 w-[1px] h-8 bg-slate-850" />
+                          <div className="absolute top-5 left-2 w-[1px] h-8 bg-white/5" />
                         )}
                         <div className={`h-4.5 w-4.5 rounded-full border flex items-center justify-center shrink-0 mt-0.5 ${
                           step.status === 'done' 
-                            ? 'border-emerald-500/35 bg-emerald-500/10 text-emerald-400' 
+                            ? 'border-emerald-500/25 bg-emerald-500/5 text-emerald-400' 
                             : step.status === 'active' 
-                              ? 'border-indigo-500/40 bg-indigo-500/10 text-[#818CF8] animate-pulse'
-                              : 'border-slate-800 bg-slate-950 text-slate-500'
+                              ? 'border-indigo-500/35 bg-indigo-500/5 text-indigo-400'
+                              : 'border-slate-800 bg-slate-950 text-slate-600'
                         }`}>
                           {step.status === 'done' ? <CheckCircle2 className="h-3 w-3" /> : <span className="text-[8px] font-black">{idx + 1}</span>}
                         </div>
                         <div className="text-[11px] text-left">
-                          <span className={`font-bold block ${step.status === 'done' ? 'text-slate-300' : 'text-slate-450'}`}>{step.title}</span>
-                          <span className="text-[9px] text-slate-500 uppercase tracking-wide font-extrabold">
-                            {step.status === 'done' ? 'Completed' : step.status === 'active' ? 'Parsing logs' : 'Staged'}
-                          </span>
+                          <span className={`font-bold block ${step.status === 'done' ? 'text-slate-350' : 'text-slate-500'}`}>{step.title}</span>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="border-t border-slate-850/80 pt-4 mt-6">
-                  <div className="rounded-xl border border-slate-850 bg-slate-950/60 p-3 text-center cursor-pointer hover:border-indigo-500/30 transition-colors">
-                    <UploadCloud className="h-5 w-5 text-indigo-400 mx-auto mb-2" />
+                <div className="border-t border-white/5 pt-4 mt-6">
+                  <div className="rounded-xl border border-white/5 bg-slate-950/60 p-3.5 text-center cursor-pointer hover:border-white/10 transition-colors">
                     <span className="block text-[10px] font-bold text-slate-300">Upload Transcript</span>
                   </div>
                 </div>
               </div>
 
               {/* PANEL 2: Central Graphic Chart & Document Logs (5 cols) */}
-              <div className="lg:col-span-5 rounded-2xl border border-slate-850 bg-[#070B14]/75 p-5 flex flex-col justify-between space-y-5">
+              <div className="lg:col-span-5 rounded-2xl border border-white/5 bg-[#090611]/75 p-5 flex flex-col justify-between space-y-5">
                 <div>
-                  <div className="flex items-center justify-between border-b border-slate-850 pb-2.5 mb-3">
+                  <div className="flex items-center justify-between border-b border-white/5 pb-2.5 mb-3">
                     <div>
-                      <span className="text-[9px] uppercase tracking-wider text-slate-500 font-extrabold block">Compliance Index</span>
-                      <h4 className="text-xs font-black text-white mt-0.5">Auditing Progress Graph</h4>
+                      <span className={theme.typography.caption}>Compliance Index</span>
+                      <h4 className={theme.typography.cardHeading + " mt-0.5"}>Auditing Progress Graph</h4>
                     </div>
-                    <span className="text-[9px] bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-extrabold uppercase tracking-wide">
-                      Optimal
-                    </span>
                   </div>
 
-                  {/* Gradient Area Chart representation */}
+                  {/* Area Chart */}
                   <div className="h-28 w-full relative flex items-end">
                     <svg className="w-full h-full" viewBox="0 0 300 100" preserveAspectRatio="none">
                       <defs>
-                        <linearGradient id="hero-stripe" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.2" />
-                          <stop offset="100%" stopColor="transparent" />
-                        </linearGradient>
-                      </defs>
-                      <path d="M 10 90 L 80 75 L 150 45 L 220 50 L 290 20 L 290 100 L 10 100 Z" fill="url(#hero-grad-mesh)" />
-                      <path d="M 10 90 L 80 75 L 150 45 L 220 50 L 290 20" fill="none" stroke="#7C3AED" strokeWidth="1.5" />
-                      <defs>
                         <linearGradient id="hero-grad-mesh" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.2" />
+                          <stop offset="0%" stopColor="#4F46E5" stopOpacity="0.1" />
                           <stop offset="100%" stopColor="transparent" stopOpacity="0.0" />
                         </linearGradient>
                       </defs>
+                      <path d="M 10 90 L 80 75 L 150 45 L 220 50 L 290 20 L 290 100 L 10 100 Z" fill="url(#hero-grad-mesh)" />
+                      <path d="M 10 90 L 80 75 L 150 45 L 220 50 L 290 20" fill="none" stroke="#4F46E5" strokeWidth="1.5" />
                     </svg>
                   </div>
                 </div>
 
                 <div className="space-y-3">
-                  <span className="text-[8.5px] uppercase tracking-wider text-slate-500 font-extrabold block">Staged Reports</span>
+                  <span className={theme.typography.caption}>Staged Reports</span>
                   
                   <div className="space-y-2">
                     {mockMeetings.map((mtg, i) => (
-                      <div key={i} className="flex items-center justify-between bg-slate-950/65 border border-slate-900 px-3.5 py-2.5 rounded-xl text-[11px]">
+                      <div key={i} className="flex items-center justify-between bg-slate-950 border border-slate-900 px-3.5 py-2.5 rounded-xl text-[11px]">
                         <div className="text-left space-y-0.5">
-                          <span className="font-bold text-slate-200 block">{mtg.title}</span>
-                          <span className="text-[9.5px] text-slate-500 uppercase font-extrabold">{mtg.company}</span>
+                          <span className="font-bold text-slate-300 block">{mtg.title}</span>
+                          <span className="text-[9px] font-extrabold text-slate-500 uppercase tracking-wider">{mtg.company}</span>
                         </div>
-                        <span className={`rounded-full px-2 py-0.5 text-[8.5px] font-extrabold uppercase tracking-wide border ${
-                          mtg.status === 'compliant' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-amber-500/10 border-amber-500/20 text-amber-400'
-                        }`}>
+                        <span className={mtg.status === 'compliant' ? compliantBadgeClass : reviewBadgeClass}>
                           {mtg.status === 'compliant' ? 'Compliant' : 'Review'}
                         </span>
                       </div>
@@ -277,15 +232,14 @@ export default function LandingPage() {
               </div>
 
               {/* PANEL 3: Right Side Live AI assistant & Notifications (4 cols) */}
-              <div className="lg:col-span-4 rounded-2xl border border-slate-850 bg-[#070B14]/80 p-5 flex flex-col justify-between text-xs space-y-4">
+              <div className="lg:col-span-4 rounded-2xl border border-white/5 bg-[#090611]/80 p-5 flex flex-col justify-between text-xs space-y-4">
                 
                 {/* AI Assistant Simulated Box */}
                 <div>
-                  <div className="flex items-center gap-2 border-b border-slate-850 pb-2 mb-3">
-                    <Sparkles className="h-4 w-4 text-[#818CF8] animate-pulse" />
+                  <div className="flex items-center gap-2 border-b border-white/5 pb-2 mb-3">
                     <div>
-                      <span className="text-[8.5px] font-black uppercase text-slate-500 tracking-wider block">Copilot Node</span>
-                      <h4 className="text-xs font-bold text-white">Compliance Terminal</h4>
+                      <span className={theme.typography.caption}>Copilot Node</span>
+                      <h4 className="text-xs font-bold text-white mt-0.5">Compliance Terminal</h4>
                     </div>
                   </div>
 
@@ -296,7 +250,7 @@ export default function LandingPage() {
                         key={idx}
                         className={`p-2.5 rounded-xl max-w-[85%] text-left ${
                           m.sender === 'user' 
-                            ? 'ml-auto bg-indigo-500/10 border border-indigo-500/25 text-[#818CF8]' 
+                            ? 'ml-auto bg-slate-950 border border-white/5 text-slate-200' 
                             : 'bg-slate-950/65 border border-slate-900 text-slate-400'
                         }`}
                       >
@@ -311,22 +265,21 @@ export default function LandingPage() {
                       type="text"
                       value={chatInput}
                       onChange={(e) => setChatInput(e.target.value)}
-                      placeholder="Ask about compliance policies..."
-                      className="flex-1 bg-slate-950 border border-slate-850 rounded-xl py-2 px-3 text-[11px] placeholder-slate-650 focus:outline-none focus:border-indigo-500/50 text-white"
+                      placeholder="Ask about compliance..."
+                      className="flex-1 bg-slate-950 border border-white/5 rounded-xl py-2 px-3 text-[11px] placeholder-slate-650 focus:outline-none focus:border-indigo-500/50 text-white"
                     />
-                    <button type="submit" className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-[#7C3AED] to-[#3B82F6] text-white border-0 shrink-0">
-                      <Send className="h-3.5 w-3.5" />
+                    <button type="submit" className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-650 text-white border-0 shrink-0">
+                      <ArrowRight className="h-4.5 w-4.5" />
                     </button>
                   </form>
                 </div>
 
                 {/* Notifications logs */}
-                <div className="border-t border-slate-850/80 pt-3 text-[11px] text-slate-500">
+                <div className="border-t border-white/5 pt-3 text-[11px] text-slate-500">
                   <div className="flex items-center justify-between mb-1.5 font-bold uppercase text-[8px] tracking-wider">
                     <span>Recent Logs</span>
-                    <span className="text-cyan-400 animate-pulse">Live</span>
                   </div>
-                  <div className="rounded-xl border border-slate-900 bg-slate-950/50 p-2 font-mono text-[9px] text-slate-400 space-y-1">
+                  <div className="rounded-xl border border-slate-900 bg-slate-950/50 p-2.5 font-mono text-[9px] text-slate-400 space-y-1">
                     <p className="truncate">• [INFO] Diarization process active</p>
                     <p className="truncate">• [INFO] SOX Section 404 verified</p>
                   </div>
@@ -340,155 +293,157 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 3. INTERACTIVE BENTO GRID FEATURE SECTIONS */}
-      <section id="features" className="py-20 md:py-28 border-t border-slate-900 bg-[#070B14]">
-        <div className="mx-auto max-w-6xl px-6">
+      {/* 3. ASYMMETRIC ALTERNATING LAYOUT SECTIONS */}
+      <section id="features" className="py-24 md:py-36 border-t border-white/5 bg-[#090611]">
+        <div className="mx-auto max-w-5xl px-6 space-y-28 md:space-y-40">
           
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="text-[10px] font-black uppercase tracking-wider text-[#818CF8] bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full">
-              Product Overview
-            </span>
-            <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight uppercase font-sans">
-              Interactive Dashboard Modules
-            </h2>
-            <p className="text-xs text-slate-450 leading-relaxed font-sans font-medium">
-              Every detail is engineered to optimize board compliance, diarization, and regulatory standards verification.
-            </p>
-          </div>
-
-          {/* Bento grid panels mapping features */}
-          <div className="grid gap-6 md:grid-cols-12">
+          {/* SECTION A: Left Text / Right Visual (Diarization) */}
+          <div className="grid gap-12 lg:grid-cols-12 items-center text-left">
+            <div className="lg:col-span-5 space-y-4">
+              <span className={theme.typography.caption}>Diarization Node</span>
+              <h2 className="text-2xl md:text-3.5xl font-black text-white uppercase tracking-tight leading-none">
+                French Legal & Works-Council Speaker Resolution
+              </h2>
+              <p className={theme.typography.body}>
+                Auto-resolves speaker placeholders and filters crosstalk for legal proceedings. Replaces complex manual annotation with structured voice parsing blocks.
+              </p>
+            </div>
             
-            {/* Bento Module 1: Diarization Transcript view (7 cols) */}
-            <div className="md:col-span-7 rounded-3xl border border-slate-850 bg-[#111827]/40 p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-slate-700/80 transition-all min-h-[300px]">
-              <div className="space-y-2 text-left mb-6">
-                <span className="text-[9px] font-black text-[#818CF8] uppercase tracking-wider block">Diarization Node</span>
-                <h4 className="text-lg font-bold text-white font-sans">French Legal & Works-Council Speaker Resolution</h4>
-                <p className="text-[11px] text-slate-450 leading-relaxed font-medium">
-                  Auto-resolves speaker placeholders and filters crosstalk for legal proceedings.
-                </p>
-              </div>
-
-              {/* Simulated transcript screenshot */}
-              <div className="bg-slate-950/65 border border-slate-900 p-4 rounded-2xl text-[10px] space-y-3 text-left font-mono">
-                <div className="flex gap-2">
-                  <span className="text-[#818CF8] font-bold shrink-0">[CFO - 00:23]</span>
-                  <span className="text-slate-350">"Database controls and ledger sign-offs have been locked."</span>
-                </div>
-                <div className="flex gap-2">
-                  <span className="text-[#06B6D4] font-bold shrink-0">[CEO - 00:45]</span>
-                  <span className="text-slate-350">"Approved. Compile the audit summary for compliance checks."</span>
+            <div className="lg:col-span-7">
+              <div className={`border ${theme.colors.border} bg-[#0F1117]/85 p-6 shadow-md ${theme.radius.card}`}>
+                <div className="bg-slate-950/65 border border-slate-900 p-4 rounded-2xl text-[10px] space-y-3 font-mono text-left">
+                  <div className="flex gap-2">
+                    <span className="text-slate-400 font-bold shrink-0">[CFO - 00:23]</span>
+                    <span className="text-slate-350">"Database controls and ledger sign-offs have been locked."</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="text-slate-400 font-bold shrink-0">[CEO - 00:45]</span>
+                    <span className="text-slate-350">"Approved. Compile the audit summary for compliance checks."</span>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Bento Module 2: Circular gauge & stats indicators (5 cols) */}
-            <div className="md:col-span-5 rounded-3xl border border-slate-850 bg-[#111827]/40 p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-slate-700/80 transition-all min-h-[300px]">
-              <div className="space-y-2 text-left mb-6">
-                <span className="text-[9px] font-black text-[#818CF8] uppercase tracking-wider block">Compliance health</span>
-                <h4 className="text-lg font-bold text-white font-sans">Verification Index</h4>
-                <p className="text-[11px] text-slate-450 leading-relaxed font-medium">
-                  Compliance alignment meters ensure your records pass external audits instantly.
-                </p>
-              </div>
-
-              {/* Radial meter indicator */}
-              <div className="flex justify-center items-center py-2.5">
-                <div className="relative h-20 w-20">
+          {/* SECTION B: Left Visual / Right Text (Verification Index) */}
+          <div className="grid gap-12 lg:grid-cols-12 items-center text-left">
+            <div className="lg:col-span-7 lg:order-1 order-2">
+              <div className={`border ${theme.colors.border} bg-[#0F1117]/85 p-8 shadow-md flex items-center justify-center min-h-[220px] ${theme.radius.card}`}>
+                <div className="relative h-24 w-24">
                   <svg className="h-full w-full -rotate-90 transform" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="42" fill="none" stroke="#1E293B" strokeWidth="8" />
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="#1E222F" strokeWidth="8" />
                     <circle cx="50" cy="50" r="42" fill="none" stroke="#10B981" strokeWidth="8" strokeDasharray="264" strokeDashoffset="264 * (1 - 0.96)" />
                   </svg>
-                  <span className="absolute inset-0 flex items-center justify-center text-xs font-black text-emerald-400">96%</span>
+                  <span className="absolute inset-0 flex items-center justify-center text-sm font-black text-emerald-400">96%</span>
                 </div>
               </div>
             </div>
 
-            {/* Bento Module 3: Regulation scan mapping form (6 cols) */}
-            <div className="md:col-span-6 rounded-3xl border border-slate-850 bg-[#111827]/40 p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-slate-700/80 transition-all min-h-[300px]">
-              <div className="space-y-2 text-left mb-6">
-                <span className="text-[9px] font-black text-[#818CF8] uppercase tracking-wider block">Scan Custom Policies</span>
-                <h4 className="text-lg font-bold text-white font-sans">Interactive Regulation Checker</h4>
-                <p className="text-[11px] text-slate-450 leading-relaxed font-medium">
-                  Check your minutes against specific security policies or SOX rules.
-                </p>
-              </div>
-
-              {/* Search query module */}
-              <div className="bg-slate-950/65 border border-slate-900 p-4 rounded-2xl text-[11px] text-left space-y-3">
-                <form onSubmit={handleQuerySearch} className="flex gap-2">
-                  <input 
-                    type="text" 
-                    value={queryInput}
-                    onChange={(e) => setQueryInput(e.target.value)}
-                    className="flex-1 bg-slate-900 border border-slate-800 text-white rounded-xl py-2 px-3 text-xs focus:outline-none"
-                  />
-                  <Button type="submit" className="rounded-xl bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] text-white border-0 text-xs px-3">
-                    Query Scan
-                  </Button>
-                </form>
-                <div className="space-y-1 pt-1.5 font-mono text-[9px] text-slate-400">
-                  {demoQueryResults.map((res, i) => (
-                    <p key={i} className="truncate">• {res}</p>
-                  ))}
-                </div>
-              </div>
+            <div className="lg:col-span-5 lg:order-2 order-1 space-y-4">
+              <span className={theme.typography.caption}>Compliance Health</span>
+              <h2 className="text-2xl md:text-3.5xl font-black text-white uppercase tracking-tight leading-none">
+                Verification Index alignment
+              </h2>
+              <p className={theme.typography.body}>
+                Compliance alignment meters ensure your records pass external audits instantly. Automatically maps discussion segments directly to safety protocols.
+              </p>
             </div>
-
-            {/* Bento Module 4: Voting results list tracker (6 cols) */}
-            <div className="md:col-span-6 rounded-3xl border border-slate-850 bg-[#111827]/40 p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-slate-700/80 transition-all min-h-[300px]">
-              <div className="space-y-2 text-left mb-6">
-                <span className="text-[9px] font-black text-[#818CF8] uppercase tracking-wider block">Voting Logs</span>
-                <h4 className="text-lg font-bold text-white font-sans">Decision & Voting Results</h4>
-                <p className="text-[11px] text-slate-450 leading-relaxed font-medium">
-                  Compiles voting records, resolution owner assignments, and next-action logs.
-                </p>
-              </div>
-
-              {/* Voting table simulation */}
-              <div className="bg-slate-950/65 border border-slate-900 p-3.5 rounded-2xl text-[10px] text-left font-sans space-y-2.5">
-                <div className="flex items-center justify-between border-b border-slate-900 pb-1.5">
-                  <span className="font-bold text-slate-300">Auditor Ledger Overrides</span>
-                  <span className="text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded text-[8px] font-black uppercase">Passed</span>
-                </div>
-                <div className="flex justify-between items-center text-[9px] text-slate-500">
-                  <span>Results: 5-0 Unanimous Approval</span>
-                  <span>Owner: CFO</span>
-                </div>
-              </div>
-            </div>
-
           </div>
+
+          {/* SECTION C: Left Text / Right Visual (Regulation scan mapping) */}
+          <div className="grid gap-12 lg:grid-cols-12 items-center text-left">
+            <div className="lg:col-span-5 space-y-4">
+              <span className={theme.typography.caption}>Custom Policies</span>
+              <h2 className="text-2xl md:text-3.5xl font-black text-white uppercase tracking-tight leading-none">
+                Interactive Regulation Checker
+              </h2>
+              <p className={theme.typography.body}>
+                Check your minutes against specific security policies or SOX rules. Runs a semantic pass matching keywords directly into safety checkpoints.
+              </p>
+            </div>
+
+            <div className="lg:col-span-7">
+              <div className={`border ${theme.colors.border} bg-[#0F1117]/85 p-6 shadow-md ${theme.radius.card}`}>
+                <div className="bg-slate-950/65 border border-slate-900 p-4 rounded-2xl text-[11px] text-left space-y-3">
+                  <form onSubmit={handleQuerySearch} className="flex gap-2">
+                    <input 
+                      type="text" 
+                      value={queryInput}
+                      onChange={(e) => setQueryInput(e.target.value)}
+                      className="flex-1 bg-slate-900 border border-slate-800 text-white rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-indigo-500/20"
+                    />
+                    <Button type="submit" className="rounded-xl bg-indigo-650 hover:bg-indigo-700 text-white border-0 text-xs px-3.5 py-2.5">
+                      Query Scan
+                    </Button>
+                  </form>
+                  <div className="space-y-1 pt-1.5 font-mono text-[9px] text-slate-500">
+                    {demoQueryResults.map((res, i) => (
+                      <p key={i} className="truncate">• {res}</p>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION D: Left Visual / Right Text (Voting tables) */}
+          <div className="grid gap-12 lg:grid-cols-12 items-center text-left">
+            <div className="lg:col-span-7 lg:order-1 order-2">
+              <div className={`border ${theme.colors.border} bg-[#0F1117]/85 p-6 shadow-md ${theme.radius.card}`}>
+                <div className="bg-slate-950/65 border border-slate-900 p-3.5 rounded-2xl text-[10px] text-left font-sans space-y-2.5">
+                  <div className="flex items-center justify-between border-b border-slate-900 pb-1.5">
+                    <span className="font-bold text-slate-350">Auditor Ledger Overrides</span>
+                    <span className="text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded text-[8px] font-black uppercase">Passed</span>
+                  </div>
+                  <div className="flex justify-between items-center text-[9px] text-slate-550">
+                    <span>Results: 5-0 Unanimous Approval</span>
+                    <span>Owner: CFO</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5 lg:order-2 order-1 space-y-4">
+              <span className={theme.typography.caption}>Voting Logs</span>
+              <h2 className="text-2xl md:text-3.5xl font-black text-white uppercase tracking-tight leading-none">
+                Decision & Voting Results
+              </h2>
+              <p className={theme.typography.body}>
+                Compiles voting records, resolution owner assignments, and next-action logs. Structured audit trail tracks board consensus records.
+              </p>
+            </div>
+          </div>
+
         </div>
       </section>
 
-      {/* 4. METRICS & DENSE KEY STATS */}
-      <section id="metrics" className="py-20 md:py-24 border-t border-slate-900 bg-[#070B14]">
-        <div className="mx-auto max-w-6xl px-6">
+      {/* 4. METRICS & KEY STATS */}
+      <section id="metrics" className="py-24 md:py-36 border-t border-white/5 bg-[#090611]">
+        <div className="mx-auto max-w-5xl px-6">
           <div className="grid gap-16 md:grid-cols-12 items-stretch">
             
             {/* Stats block left */}
             <div className="md:col-span-5 space-y-8 text-left">
-              <div className="border-l-3 border-[#7C3AED] pl-6 py-2">
-                <span className="block text-[10px] uppercase tracking-wider text-slate-500 font-extrabold">Established Node</span>
-                <span className="block text-3.5xl font-black text-white mt-1 tracking-tight">SINCE 2024</span>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
+              <div className="border-l border-white/10 pl-6 py-1">
+                <span className={theme.typography.caption}>Established Node</span>
+                <span className="block text-2xl font-black text-white mt-1 tracking-tight">SINCE 2024</span>
+                <p className="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
                   Mission-driven security engine checking governance board actions with AI.
                 </p>
               </div>
 
-              <div className="border-l-3 border-[#3B82F6] pl-6 py-2">
-                <span className="block text-[10px] uppercase tracking-wider text-slate-500 font-extrabold">Total Audited Volume</span>
-                <span className="block text-3.5xl font-black text-white mt-1 tracking-tight">100,000+</span>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
+              <div className="border-l border-white/10 pl-6 py-1">
+                <span className={theme.typography.caption}>Total Audited Volume</span>
+                <span className="block text-2xl font-black text-white mt-1 tracking-tight">100,000+</span>
+                <p className="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
                   Audits executed successfully across financial, tech, and healthcare boards.
                 </p>
               </div>
 
-              <div className="border-l-3 border-[#06B6D4] pl-6 py-2">
-                <span className="block text-[10px] uppercase tracking-wider text-slate-500 font-extrabold">Inspection rating</span>
-                <span className="block text-3.5xl font-black text-white mt-1 tracking-tight">95% SUCCESS</span>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
+              <div className="border-l border-white/10 pl-6 py-1">
+                <span className={theme.typography.caption}>Inspection rating</span>
+                <span className="block text-2xl font-black text-white mt-1 tracking-tight">95% SUCCESS</span>
+                <p className="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
                   Boards reporting zero findings during external regulatory audits.
                 </p>
               </div>
@@ -497,36 +452,36 @@ export default function LandingPage() {
             {/* Bento statistics blocks right */}
             <div className="md:col-span-7 flex flex-col justify-center space-y-6">
               <div className="text-left space-y-2">
-                <h3 className="text-3xl font-black text-white leading-tight uppercase font-sans">
+                <h3 className={theme.typography.sectionHeading}>
                   Auditor Verified Architecture
                 </h3>
-                <p className="text-xs text-slate-450 leading-relaxed font-sans font-medium">
+                <p className="text-xs text-slate-500 leading-relaxed font-sans font-medium">
                   Dedicated secure system built under compliance regulation controls.
                 </p>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-3">
-                <div className="bg-[#111827]/40 border border-slate-850 rounded-2xl p-5 flex flex-col justify-between aspect-[4/3] text-left hover:border-slate-800 transition-colors">
-                  <span className="h-2 w-2 rounded-full bg-[#7C3AED]" />
-                  <span className="text-[11px] font-bold text-white">Pre-Templates & Checklists</span>
-                  <span className="text-[9.5px] text-slate-500 font-semibold flex items-center gap-1.5">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> Active Standards
+                <div className="bg-[#0F1117]/40 border border-white/5 rounded-2xl p-5 flex flex-col justify-between aspect-[4/3] text-left hover:border-white/10 transition-colors">
+                  <span className="h-1.5 w-1.5 rounded-full bg-slate-500" />
+                  <span className="text-[10px] font-bold text-white">Pre-Templates & Checklists</span>
+                  <span className="text-[9px] text-slate-500 font-semibold flex items-center gap-1">
+                    Active Standards
                   </span>
                 </div>
 
-                <div className="bg-[#111827]/40 border border-slate-850 rounded-2xl p-5 flex flex-col justify-between aspect-[4/3] text-left hover:border-slate-800 transition-colors">
-                  <span className="h-2 w-2 rounded-full bg-[#3B82F6]" />
-                  <span className="text-[11px] font-bold text-white">AI Report Summaries</span>
-                  <span className="text-[9.5px] text-slate-500 font-semibold flex items-center gap-1.5">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> 27 Languages
+                <div className="bg-[#0F1117]/40 border border-white/5 rounded-2xl p-5 flex flex-col justify-between aspect-[4/3] text-left hover:border-white/10 transition-colors">
+                  <span className="h-1.5 w-1.5 rounded-full bg-slate-500" />
+                  <span className="text-[10px] font-bold text-white">AI Report Summaries</span>
+                  <span className="text-[9px] text-slate-500 font-semibold flex items-center gap-1">
+                    27 Languages
                   </span>
                 </div>
 
-                <div className="bg-[#111827]/40 border border-slate-850 rounded-2xl p-5 flex flex-col justify-between aspect-[4/3] text-left hover:border-slate-800 transition-colors">
-                  <span className="h-2 w-2 rounded-full bg-[#06B6D4]" />
-                  <span className="text-[11px] font-bold text-white">Fast & Simple Export</span>
-                  <span className="text-[9.5px] text-slate-500 font-semibold flex items-center gap-1.5">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> PDF / JSON
+                <div className="bg-[#0F1117]/40 border border-white/5 rounded-2xl p-5 flex flex-col justify-between aspect-[4/3] text-left hover:border-white/10 transition-colors">
+                  <span className="h-1.5 w-1.5 rounded-full bg-slate-500" />
+                  <span className="text-[10px] font-bold text-white">Fast & Simple Export</span>
+                  <span className="text-[9px] text-slate-500 font-semibold flex items-center gap-1">
+                    PDF / JSON
                   </span>
                 </div>
               </div>
@@ -536,25 +491,23 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 5. FINAL PRODUCT-MOCKUP CTA BANNER */}
-      <section className="py-24 bg-gradient-to-r from-[#0F111A] via-[#131624] to-[#0F111A] text-white text-center relative overflow-hidden border-t border-slate-900">
-        <div className="absolute inset-0 bg-[radial-gradient(40rem_40rem_at_center,rgba(124,58,237,0.12),transparent)] pointer-events-none" />
-        
+      {/* 5. FINAL CTA BANNER */}
+      <section className="py-28 bg-[#090611] text-white text-center relative overflow-hidden border-t border-white/5">
         <div className="mx-auto max-w-4xl px-6 relative z-10 space-y-6">
           <h2 className="text-4xl md:text-5xl font-black leading-tight text-white font-sans uppercase">
             Simplify your board compliance audits
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-slate-400 text-xs leading-relaxed">
+          <p className="mx-auto mt-4 max-w-lg text-slate-500 text-xs leading-relaxed">
             Upload meeting audio or transcripts and get audit reports instantly.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link href="/dashboard">
-              <Button size="lg" className="rounded-xl bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:opacity-95 font-bold uppercase tracking-wider px-8 py-6 shadow-lg border-0 text-[10px]">
+              <Button size="lg" className="rounded-xl bg-[#0F1117] border border-white/5 text-white hover:bg-slate-950 font-bold uppercase tracking-wider px-8 py-6 text-[10px]">
                 Get Started Free
               </Button>
             </Link>
             <Link href="/compliance">
-              <Button size="lg" variant="outline" className="rounded-xl bg-transparent border-slate-800 text-slate-300 hover:text-white hover:bg-slate-900 font-bold uppercase tracking-wider px-8 py-6 text-[10px]">
+              <Button size="lg" variant="outline" className="rounded-xl bg-transparent border-white/5 text-slate-350 hover:text-white hover:bg-slate-900 font-bold uppercase tracking-wider px-8 py-6 text-[10px]">
                 View Risk Assessment
               </Button>
             </Link>
@@ -562,25 +515,25 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 6. MINIMAL SYSTEM FOOTER */}
-      <footer className="border-t border-slate-900 bg-[#070B14] py-12">
+      {/* 6. SYSTEM FOOTER */}
+      <footer className="border-t border-white/5 bg-[#090611] py-16">
         <div className="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-[#7C3AED] to-[#3B82F6] text-white">
-              <FileText className="h-4.5 w-4.5" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 border border-white/5 text-slate-300">
+              <FileText className="h-4 w-4" />
             </div>
-            <span className="text-xs font-black text-white uppercase tracking-wider">
-              Meeting <span className="text-[#818CF8]">Minute</span>
+            <span className="text-[10px] font-black text-white uppercase tracking-wider">
+              Meeting <span className="text-slate-550">Minute</span>
             </span>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+          <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-[9px] font-extrabold uppercase tracking-wider text-slate-500">
             <a href="#features" className="hover:text-white transition-colors">Features</a>
             <a href="#how-it-works" className="hover:text-white transition-colors">How it works</a>
             <a href="#metrics" className="hover:text-white transition-colors">Analytics</a>
             <Link href="/compliance" className="hover:text-white transition-colors">Regulatory Risks</Link>
             <span className="hidden md:inline text-slate-800">|</span>
-            <span className="font-normal text-slate-600 lowercase">&copy; {new Date().getFullYear()} meeting minute inc. all rights reserved.</span>
+            <span className="font-normal text-slate-650 lowercase">&copy; {new Date().getFullYear()} meeting minute inc. all rights reserved.</span>
           </div>
         </div>
       </footer>
