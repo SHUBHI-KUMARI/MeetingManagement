@@ -24,31 +24,6 @@ export default function DashboardClient({ initialReports }: DashboardClientProps
   const [isLoading, setIsLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'all' | 'compliant' | 'review'>('all')
   const [hoveredPoint, setHoveredPoint] = useState<number | null>(null)
-  
-  // Chat state
-  const [messages, setMessages] = useState<Array<{ sender: 'user' | 'ai'; text: string }>>([
-    { sender: 'ai', text: 'Ask me anything about regulatory risk mapping.' }
-  ])
-  const [inputVal, setInputVal] = useState('')
-
-  const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!inputVal.trim()) return
-    const userMsg = inputVal
-    setMessages(prev => [...prev, { sender: 'user', text: userMsg }])
-    setInputVal('')
-    
-    // Auto AI reply mock
-    setTimeout(() => {
-      let reply = "Compliance indices verified. Database connections are encrypting via TLS 1.3."
-      if (userMsg.toLowerCase().includes('sox')) {
-        reply = "SOX Section 404 controls are audit-ready. No overrides detected in database ledger."
-      } else if (userMsg.toLowerCase().includes('gdpr')) {
-        reply = "GDPR Article 32 requires regular testing. Next scheduled test window starts on July 18."
-      }
-      setMessages(prev => [...prev, { sender: 'ai', text: reply }])
-    }, 700)
-  }
 
   const totalReports = reports.length
   const totalMinutes = reports.reduce((sum, r) => sum + r.duration, 0)
@@ -353,48 +328,6 @@ export default function DashboardClient({ initialReports }: DashboardClientProps
                     </div>
                   </div>
 
-                  {/* UTILITY WIDGET 4: Assistant Console */}
-                  <div className={`rounded-3xl border ${theme.colors.border} bg-[#0F1117]/70 p-5 shadow backdrop-blur-md`}>
-                    <div className="flex items-center gap-2 border-b border-white/5 pb-3 mb-3">
-                      <div>
-                        <span className={theme.typography.caption}>Real-time Copilot</span>
-                        <h4 className="text-xs font-bold text-white mt-0.5">Compliance Assistant</h4>
-                      </div>
-                    </div>
-
-                    {/* Messages Panel */}
-                    <div className="space-y-3.5 max-h-48 overflow-y-auto mb-4 pr-1 text-xs">
-                      {messages.map((msg, i) => (
-                        <div 
-                          key={i}
-                          className={`p-3 rounded-2xl max-w-[85%] text-left ${
-                            msg.sender === 'user' 
-                              ? 'ml-auto bg-slate-950 border border-white/5 text-slate-200' 
-                              : 'bg-slate-950/45 border border-slate-900 text-slate-400'
-                          }`}
-                        >
-                          {msg.text}
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Message submission form */}
-                    <form onSubmit={handleSendMessage} className="flex gap-2">
-                      <input 
-                        type="text"
-                        value={inputVal}
-                        onChange={(e) => setInputVal(e.target.value)}
-                        placeholder="Ask about compliance policies..."
-                        className="flex-1 bg-slate-950 border border-white/5 text-white rounded-xl py-2.5 px-3.5 text-[11px] placeholder-slate-650 focus:outline-none focus:border-indigo-500/50"
-                      />
-                      <button 
-                        type="submit"
-                        className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-650 text-white hover:bg-indigo-700 transition-colors border-0 shrink-0"
-                      >
-                        <ArrowRight className="h-4 w-4" />
-                      </button>
-                    </form>
-                  </div>
 
                 </div>
 

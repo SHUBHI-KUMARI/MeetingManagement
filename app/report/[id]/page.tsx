@@ -51,7 +51,7 @@ export default function ReportPage({ params }: ReportPageProps) {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/api/reports')
+    fetch('/api/reports?t=' + Date.now(), { cache: 'no-store' })
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -67,11 +67,11 @@ export default function ReportPage({ params }: ReportPageProps) {
 
   if (isLoading) {
     return (
-      <div className="flex bg-[#090A0F] text-slate-100 min-h-screen">
+      <div className="flex bg-[#090611] text-slate-100 min-h-screen">
         <Sidebar />
         <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
           <TopNav />
-          <main className="min-h-[calc(100vh-4rem)] bg-[#090A0F] flex items-center justify-center">
+          <main className="min-h-[calc(100vh-4rem)] bg-[#090611] flex items-center justify-center">
             <div className="text-center">
               <Loader2 className="h-8 w-8 animate-spin text-[#818CF8] mx-auto" />
               <p className="mt-4 text-xs text-slate-500 font-bold font-sans">Loading report details...</p>
@@ -87,11 +87,11 @@ export default function ReportPage({ params }: ReportPageProps) {
   }
 
   return (
-    <div className="flex bg-[#090A0F] text-slate-100 min-h-screen">
+    <div className="flex bg-[#090611] text-slate-100 min-h-screen">
       <Sidebar />
       <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
         <TopNav />
-        <div className="flex min-h-[calc(100vh-4rem)] bg-[#090A0F]">
+        <div className="flex min-h-[calc(100vh-4rem)] bg-[#090611]">
           {/* Sidebar TOC */}
           <ReportSidebar />
 

@@ -8,10 +8,9 @@ import {
   FileText, 
   Library, 
   ShieldCheck, 
-  Settings, 
-  HelpCircle, 
   ChevronLeft, 
-  ChevronRight
+  ChevronRight,
+  Sparkles
 } from 'lucide-react'
 import { theme } from '@/lib/theme'
 
@@ -29,19 +28,11 @@ export function Sidebar() {
       name: 'Compliance',
       href: '/compliance',
       icon: ShieldCheck
-    }
-  ]
-
-  const supportItems = [
-    {
-      name: 'Settings',
-      href: '#settings',
-      icon: Settings
     },
     {
-      name: 'Docs',
-      href: '#docs',
-      icon: HelpCircle
+      name: 'AI Assistant',
+      href: '/assistant',
+      icon: Sparkles
     }
   ]
 
@@ -92,27 +83,6 @@ export function Sidebar() {
                 <IconComponent className="h-4 w-4 shrink-0 text-slate-400" />
                 {!isCollapsed && <span>{item.name}</span>}
               </Link>
-            )
-          })}
-        </div>
-
-        <div className="space-y-1">
-          {!isCollapsed && (
-            <span className={theme.typography.caption + " px-3 mb-2 block"}>Support</span>
-          )}
-          {supportItems.map((item) => {
-            const IconComponent = item.icon
-            return (
-              <a 
-                key={item.href}
-                href={item.href}
-                className={`flex items-center gap-3 px-3 py-2.5 ${theme.radius.button} text-xs font-bold uppercase tracking-wider transition-all text-slate-500 hover:text-slate-350 ${
-                  isCollapsed ? 'justify-center' : ''
-                }`}
-              >
-                <IconComponent className="h-4 w-4 shrink-0 text-slate-500" />
-                {!isCollapsed && <span>{item.name}</span>}
-              </a>
             )
           })}
         </div>
